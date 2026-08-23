@@ -1,0 +1,92 @@
+---
+import { Image } from 'astro:assets';
+import navyLogo from '../assets/images/logo-navy.png';
+
+const year = new Date().getFullYear();
+
+const quickLinks = [
+  { label: 'Contact', href: '/contact' },
+  { label: 'Programs', href: '/programs' },
+  { label: 'Apply', href: '/apply' },
+];
+
+const learnMoreLinks = [
+  { label: 'About ATS', href: '/about' },
+  { label: 'Leadership', href: '/leadership' },
+];
+---
+<footer class="footer">
+  <div class="footer__inner max-width">
+    <Image src={navyLogo} alt="Agricola Theological Seminary" width={180} height={60} />
+    <div class="footer__columns">
+      <div>
+        <h3>Quick Links</h3>
+        <ul>
+          {quickLinks.map((link) => (
+            <li><a href={link.href}>{link.label}</a></li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h3>Learn More</h3>
+        <ul>
+          {learnMoreLinks.map((link) => (
+            <li><a href={link.href}>{link.label}</a></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+    <a class="footer__donate" href="/donate">Donate to ATS</a>
+    <p class="footer__copyright">&copy; {year} Agricola Theological Seminary. All rights reserved.</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--color-white);
+    border-top: 1px solid rgba(28, 46, 71, 0.12);
+    padding: var(--space-5) 0 var(--space-3);
+  }
+
+  .footer__columns {
+    display: flex;
+    gap: var(--space-5);
+    margin: var(--space-3) 0;
+  }
+
+  .footer__columns h3 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-muted);
+    margin-bottom: var(--space-1);
+  }
+
+  .footer__columns ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer__columns a {
+    color: var(--color-navy);
+    font-size: 14px;
+    line-height: 2;
+  }
+
+  .footer__donate {
+    display: inline-block;
+    background: var(--color-navy);
+    color: var(--color-white);
+    padding: 12px 24px;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .footer__copyright {
+    color: var(--color-muted);
+    font-size: 12px;
+    margin-top: var(--space-3);
+  }
+</style>
