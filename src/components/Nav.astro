@@ -1,0 +1,106 @@
+---
+import { Image } from 'astro:assets';
+import whiteLogo from '../assets/images/logo-white.png';
+
+const links = [
+  { label: 'About ATS', href: '/about' },
+  { label: 'News', href: '/news' },
+  { label: 'Doctrine', href: '/doctrine' },
+];
+
+const academicLinks = [
+  { label: 'Admissions', href: '/admissions' },
+  { label: 'Programs', href: '/programs' },
+  { label: 'Leadership', href: '/leadership' },
+  { label: 'Accredited Partners', href: '/accredited-partners' },
+  { label: 'Public Lectures', href: '/public-lectures' },
+];
+---
+<nav class="nav">
+  <a class="nav__logo" href="/">
+    <Image src={whiteLogo} alt="Agricola Theological Seminary" width={200} height={67} />
+  </a>
+  <ul class="nav__links">
+    {links.map((link) => (
+      <li><a href={link.href}>{link.label}</a></li>
+    ))}
+    <li class="nav__dropdown">
+      <details>
+        <summary>Academic</summary>
+        <ul class="nav__dropdown-menu">
+          {academicLinks.map((link) => (
+            <li><a href={link.href}>{link.label}</a></li>
+          ))}
+        </ul>
+      </details>
+    </li>
+    <li><a href="/contact">Contact</a></li>
+    <li><a class="nav__donate" href="/donate">Donate</a></li>
+  </ul>
+</nav>
+
+<style>
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-2) var(--space-3);
+    position: relative;
+    z-index: 2;
+  }
+
+  .nav__links {
+    display: flex;
+    list-style: none;
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0;
+    align-items: center;
+  }
+
+  .nav__links > li > a {
+    color: var(--color-white);
+    font-family: var(--font-sans);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .nav__donate {
+    border: 1px solid var(--color-white);
+    padding: 8px 16px;
+  }
+
+  .nav__dropdown details > summary {
+    cursor: pointer;
+    list-style: none;
+    color: var(--color-white);
+    font-family: var(--font-sans);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .nav__dropdown details > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .nav__dropdown-menu {
+    position: absolute;
+    list-style: none;
+    background: var(--color-white);
+    padding: var(--space-1);
+    margin-top: var(--space-1);
+    min-width: 180px;
+  }
+
+  .nav__dropdown-menu a {
+    color: var(--color-navy);
+    display: block;
+    padding: var(--space-1);
+    font-family: var(--font-sans);
+    font-size: 12px;
+    text-transform: none;
+    letter-spacing: normal;
+  }
+</style>
