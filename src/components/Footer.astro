@@ -17,26 +17,28 @@ const learnMoreLinks = [
 ---
 <footer class="footer">
   <div class="footer__inner max-width">
-    <Image src={navyLogo} alt="Agricola Theological Seminary" width={180} height={60} />
-    <div class="footer__columns">
-      <div>
-        <h3>Quick Links</h3>
-        <ul>
-          {quickLinks.map((link) => (
-            <li><a href={link.href}>{link.label}</a></li>
-          ))}
-        </ul>
+    <div class="footer__top">
+      <Image class="footer__logo" src={navyLogo} alt="Agricola Theological Seminary" width={220} height={73} />
+      <div class="footer__columns">
+        <div>
+          <h3>Quick Links</h3>
+          <ul>
+            {quickLinks.map((link) => (
+              <li><a href={link.href}>{link.label}</a></li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h3>Learn More</h3>
+          <ul>
+            {learnMoreLinks.map((link) => (
+              <li><a href={link.href}>{link.label}</a></li>
+            ))}
+          </ul>
+        </div>
       </div>
-      <div>
-        <h3>Learn More</h3>
-        <ul>
-          {learnMoreLinks.map((link) => (
-            <li><a href={link.href}>{link.label}</a></li>
-          ))}
-        </ul>
-      </div>
+      <a class="footer__donate" href="/donate">Donate to ATS</a>
     </div>
-    <a class="footer__donate" href="/donate">Donate to ATS</a>
     <p class="footer__copyright">&copy; {year} Agricola Theological Seminary. All rights reserved.</p>
   </div>
 </footer>
@@ -48,10 +50,41 @@ const learnMoreLinks = [
     padding: var(--space-5) 0 var(--space-3);
   }
 
+  .footer__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: var(--space-5);
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: var(--space-3);
+  }
+
+  .footer__logo {
+    align-self: center;
+  }
+
   .footer__columns {
     display: flex;
     gap: var(--space-5);
-    margin: var(--space-3) 0;
+  }
+
+  .footer__donate {
+    align-self: center;
+  }
+
+  @media (max-width: 640px) {
+    .footer__top {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-3);
+    }
+
+    .footer__columns {
+      flex-direction: column;
+      gap: var(--space-3);
+    }
   }
 
   .footer__columns h3 {
@@ -82,11 +115,18 @@ const learnMoreLinks = [
     font-size: 12px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+    border: 1px solid var(--color-navy);
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  .footer__donate:hover {
+    background: transparent;
+    color: var(--color-navy);
   }
 
   .footer__copyright {
     color: var(--color-muted);
     font-size: 12px;
-    margin-top: var(--space-3);
+    margin: 0;
   }
 </style>

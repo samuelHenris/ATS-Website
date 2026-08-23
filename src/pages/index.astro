@@ -1,10 +1,22 @@
 ---
+import { Image, getImage } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
 import Card from '../components/Card.astro';
-import heroImage from '../assets/images/hero-home.png';
+import heroImage from '../assets/images/hero-home.jpg';
+import communityImage from '../assets/images/community-band.jpg';
+import mattiPhoto from '../assets/images/testimonials/matti-itkonen.jpg';
+import prestonPhoto from '../assets/images/testimonials/preston-pearce.jpg';
+import davePhoto from '../assets/images/testimonials/dave-pike.jpg';
+import jeffPhoto from '../assets/images/testimonials/jeff-mooney.jpg';
+import raimoPhoto from '../assets/images/testimonials/raimo-survo.jpg';
+import eelisPhoto from '../assets/images/testimonials/eelis-halmemies.jpg';
 
 const programs = [
+  {
+    title: 'Bachelor of Theological Studies',
+    body: 'This is a 3-4 year degree, with no prior degree required, to prepare men and women for serving in ministry.',
+  },
   {
     title: 'Master in Theological Studies',
     body: 'This is a 2-3 year degree to prepare men and women ministry in the church.',
@@ -20,33 +32,49 @@ const testimonials = [
     quote:
       "After two years of studying at ATS, I can affirm that though it was challenging – as it should be – it was all worth it. ATS gives you knowledge, tools, wisdom, sanctification, and community. ATS wants to give God all the glory and to raise workers for His fields. ATS is full of faith and thus it is pleasant to be there with faith in our Lord Jesus Christ.",
     attribution: "Matti Itkonen, ATS '24 graduate",
+    photo: mattiPhoto,
   },
   {
     quote:
       "I'm honored to have been involved with ATS since its beginning. I appreciate the rigorous study of Scriptures, sound theology, mentoring, experience in ministry, and the care for students that ATS is intentional to provide.",
     attribution: 'Dr. Preston Pearce',
+    photo: prestonPhoto,
   },
   {
     quote:
       'Not only did ATS give me a great foundation in theological education and practical ministry experience, it provided me with invaluable tools to pursue loving God with all my heart, soul, and mind.',
     attribution: "Dave Pike, ATS '22 graduate",
+    photo: davePhoto,
   },
   {
     quote:
       'ATS is a unique educational experience. Rooted in a rigorous commitment to the local church, the students read top-tier evangelical scholarship and interact with historical and contemporary ideas. I am always reinvigorated after teaching there.',
-    attribution: 'Dr. Jeff Mooney, professor of Old Testament at California Baptist University',
+    attribution: 'Dr. Jeff Mooney, professor of Old Testament',
+    photo: jeffPhoto,
   },
   {
     quote:
       "This seminary has helped me to understand well the overall message of the Bible and to see how the whole Bible is the Word of God. The school was not only focused on increasing theological knowledge but also on the students' character forming in order for them to be serving as pastors wherever they are. I am grateful to the Lord that this seminary exists for the well-being of Christ's Church.",
     attribution: "Raimo Survo, ATS '24 graduate",
+    photo: raimoPhoto,
   },
   {
     quote:
       "My studies at ATS have had a significant impact on my own ministry and understanding of God's Word. I can warmly recommend the seminar to anyone who wants to grow both in their holistic understanding of the scriptures and in their communication.",
     attribution: 'Eelis Halmemies, current ATS student',
+    photo: eelisPhoto,
   },
 ];
+
+const spotlightPhotos = await Promise.all(
+  testimonials.map((t) => getImage({ src: t.photo, width: 96, height: 96 })),
+);
+
+const spotlightData = testimonials.map((t, i) => ({
+  quote: t.quote,
+  attribution: t.attribution,
+  photo: spotlightPhotos[i].src,
+}));
 ---
 <Layout
   title="Agricola Theological Seminary | Equipping the next generation of Bible teachers"
@@ -58,7 +86,7 @@ const testimonials = [
     primaryCta={{ label: 'Apply now', href: '/apply' }}
     secondaryCta={{ label: 'Learn more', href: '/about' }}
     image={heroImage}
-    imageAlt="Agricola Theological Seminary community"
+    imageAlt="Agricola Theological Seminary graduates at their commencement ceremony"
   />
 
   <section class="intro max-width">
@@ -71,9 +99,12 @@ const testimonials = [
   </section>
 
   <section class="programs max-width">
+    <span class="programs__kicker">Academic</span>
     <h2>Our Degree Programs</h2>
     <div class="programs__grid">
-      {programs.map((program) => <Card title={program.title} body={program.body} />)}
+      {programs.map((program, i) => (
+        <Card title={program.title} body={program.body} index={i + 1} href="/programs" />
+      ))}
     </div>
     <a class="programs__cta" href="/programs">Learn More</a>
   </section>
@@ -88,14 +119,80 @@ const testimonials = [
   </section>
 
   <section class="testimonials max-width">
+    <span class="testimonials__kicker">Testimonials</span>
     <h2>What Our Community Says</h2>
-    <div class="testimonials__list">
-      {testimonials.map((t) => (
-        <blockquote class="testimonial">
-          <p>&ldquo;{t.quote}&rdquo;</p>
-          <cite>- {t.attribution}</cite>
-        </blockquote>
+
+    <div class="testimonial-spotlight">
+      <img
+        class="testimonial-spotlight__photo"
+        data-spotlight-photo
+        src={spotlightPhotos[0].src}
+        alt={testimonials[0].attribution}
+        width="96"
+        height="96"
+      />
+      <div class="testimonial-spotlight__content">
+        <p class="testimonial-spotlight__quote" data-spotlight-quote>&ldquo;{testimonials[0].quote}&rdquo;</p>
+        <p class="testimonial-spotlight__name" data-spotlight-name>{testimonials[0].attribution}</p>
+      </div>
+    </div>
+
+    <div class="testimonial-grid">
+      {testimonials.map((t, i) => (
+        <figure class="testimonial-grid__card" data-index={i}>
+          <span class="testimonial-grid__mark" aria-hidden="true">&ldquo;</span>
+          <blockquote>
+            <p class="testimonial-grid__quote">{t.quote}</p>
+          </blockquote>
+          <figcaption class="testimonial-grid__person">
+            <Image src={t.photo} alt={t.attribution} width={30} height={30} class="testimonial-grid__photo" />
+            <span class="testimonial-grid__name">{t.attribution}</span>
+          </figcaption>
+        </figure>
       ))}
+    </div>
+
+    <script is:inline type="application/json" id="testimonials-data" set:html={JSON.stringify(spotlightData)} />
+    <script>
+      const dataEl = document.getElementById('testimonials-data');
+      if (dataEl && dataEl.textContent) {
+        const data = JSON.parse(dataEl.textContent);
+        const chosenIndex = Math.floor(Math.random() * data.length);
+        const chosen = data[chosenIndex];
+
+        const photoEl = document.querySelector('[data-spotlight-photo]');
+        const quoteEl = document.querySelector('[data-spotlight-quote]');
+        const nameEl = document.querySelector('[data-spotlight-name]');
+
+        if (photoEl instanceof HTMLImageElement) {
+          photoEl.src = chosen.photo;
+          photoEl.alt = chosen.attribution;
+        }
+        if (quoteEl) quoteEl.textContent = `“${chosen.quote}”`;
+        if (nameEl) nameEl.textContent = chosen.attribution;
+
+        document.querySelectorAll('.testimonial-grid__card').forEach((card) => {
+          const el = card as HTMLElement;
+          el.style.display = Number(el.dataset.index) === chosenIndex ? 'none' : '';
+        });
+      }
+    </script>
+  </section>
+
+  <section class="community-band">
+    <Image
+      class="community-band__bg"
+      src={communityImage}
+      alt="Students and faculty in discussion at Agricola Theological Seminary"
+      width={1600}
+      height={1067}
+      loading="lazy"
+    />
+    <div class="community-band__scrim"></div>
+    <div class="community-band__inner max-width">
+      <span class="community-band__kicker">Life at Agricola</span>
+      <h2 class="community-band__headline">A community of students and teachers, learning the Word together.</h2>
+      <a class="community-band__cta" href="/about">About Us</a>
     </div>
   </section>
 </Layout>
@@ -109,8 +206,9 @@ const testimonials = [
   .intro p {
     max-width: 640px;
     margin: 0 auto var(--space-3);
-    font-size: 18px;
-    line-height: 1.6;
+    font-family: 'Lora', var(--font-serif);
+    font-size: 19px;
+    line-height: 1.65;
   }
 
   .intro__cta {
@@ -121,15 +219,32 @@ const testimonials = [
     font-size: 12px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+    border: 1px solid var(--color-navy);
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  .intro__cta:hover {
+    background: transparent;
+    color: var(--color-navy);
   }
 
   .programs {
     padding: var(--space-5) var(--space-3);
+    text-align: center;
+  }
+
+  .programs__kicker {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin-bottom: var(--space-1);
   }
 
   .programs h2 {
-    text-align: center;
-    margin-bottom: var(--space-3);
+    margin-bottom: var(--space-4);
   }
 
   .programs__grid {
@@ -146,6 +261,13 @@ const testimonials = [
     font-size: 12px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .programs__cta:hover {
+    color: var(--color-navy-dark);
+    text-decoration: underline;
   }
 
   .pull-quote {
@@ -174,34 +296,211 @@ const testimonials = [
     padding: var(--space-5) var(--space-3);
   }
 
+  .testimonials__kicker {
+    display: block;
+    text-align: center;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin-bottom: var(--space-1);
+  }
+
   .testimonials h2 {
     text-align: center;
-    margin-bottom: var(--space-3);
+    margin-bottom: var(--space-4);
   }
 
-  .testimonials__list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  .testimonial-spotlight {
+    position: relative;
+    background: var(--color-navy);
+    border-radius: 12px;
+    padding: var(--space-4);
+    display: flex;
+    align-items: center;
     gap: var(--space-3);
+    margin-bottom: var(--space-3);
+    overflow: hidden;
   }
 
-  .testimonial {
+  .testimonial-spotlight::before {
+    content: '\201C';
+    position: absolute;
+    top: -30px;
+    left: 12px;
+    font-family: var(--font-serif);
+    font-size: 160px;
+    color: rgba(255, 255, 255, 0.06);
+    line-height: 1;
+  }
+
+  .testimonial-spotlight__photo {
+    position: relative;
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 3px solid rgba(255, 255, 255, 0.25);
+  }
+
+  .testimonial-spotlight__content {
+    position: relative;
+  }
+
+  .testimonial-spotlight__quote {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--color-white);
+    margin: 0 0 var(--space-1);
+  }
+
+  .testimonial-spotlight__name {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-white);
     margin: 0;
-    padding: var(--space-3);
-    border: 1px solid var(--color-border);
   }
 
-  .testimonial p {
-    font-size: 14px;
+  .testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-4);
+  }
+
+  .testimonial-grid__card {
+    margin: 0;
+    padding-top: var(--space-2);
+    border-top: 1px solid var(--color-border);
+    transition: border-color 0.2s ease;
+  }
+
+  .testimonial-grid__card:hover {
+    border-top-color: var(--color-navy);
+  }
+
+  .testimonial-grid__mark {
+    display: block;
+    font-family: 'Lora', var(--font-serif);
+    font-size: 34px;
+    line-height: 0.6;
+    color: var(--color-navy);
+    opacity: 0.15;
+    margin-bottom: var(--space-1);
+  }
+
+  .testimonial-grid__card blockquote {
+    margin: 0 0 var(--space-2);
+  }
+
+  .testimonial-grid__person {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+  }
+
+  .testimonial-grid__photo {
+    border-radius: 50%;
+    object-fit: cover;
+    filter: grayscale(35%);
+  }
+
+  .testimonial-grid__name {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-navy);
+    line-height: 1.35;
+  }
+
+  .testimonial-grid__quote {
+    font-family: 'Lora', var(--font-serif);
+    font-style: italic;
+    font-size: 13.5px;
     line-height: 1.6;
     color: var(--color-ink);
+    margin: 0;
   }
 
-  .testimonial cite {
+  @media (max-width: 640px) {
+    .testimonial-spotlight {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+
+  .community-band {
+    position: relative;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .community-band__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 38%;
+  }
+
+  .community-band__scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(var(--color-navy-dark-rgb), 0.35), rgba(var(--color-navy-dark-rgb), 0.75));
+  }
+
+  .community-band__inner {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: var(--space-5) var(--space-3);
+  }
+
+  .community-band__kicker {
     display: block;
-    margin-top: var(--space-1);
-    font-size: 13px;
-    color: var(--color-muted);
-    font-style: normal;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-white);
+    opacity: 0.85;
+    margin-bottom: var(--space-2);
+  }
+
+  .community-band__headline {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(26px, 4vw, 34px);
+    color: var(--color-white);
+    max-width: 620px;
+    margin: 0 auto var(--space-3);
+    line-height: 1.3;
+  }
+
+  .community-band__cta {
+    display: inline-block;
+    background: var(--color-white);
+    color: var(--color-navy);
+    border: 1px solid var(--color-white);
+    padding: 13px 28px;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 600;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  .community-band__cta:hover {
+    background: transparent;
+    color: var(--color-white);
   }
 </style>

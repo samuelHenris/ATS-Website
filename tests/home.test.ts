@@ -11,10 +11,11 @@ describe('Home page', () => {
     expect(html).toContain('Shaping Servants of the Word for the Church and the World.');
   });
 
-  it('renders both real degree programs', async () => {
+  it('renders all three real degree programs', async () => {
     const container = await AstroContainer.create();
     const html = await container.renderToString(Home);
 
+    expect(html).toContain('Bachelor of Theological Studies');
     expect(html).toContain('Master in Theological Studies');
     expect(html).toContain('Master of Divinity');
   });
@@ -36,5 +37,14 @@ describe('Home page', () => {
     // rendered output, not a content change.
     expect(html).toContain('Matti Itkonen, ATS &#39;24 graduate');
     expect(html).toContain('Dr. Preston Pearce');
+  });
+
+  it('renders the community band section with a link to About', async () => {
+    const container = await AstroContainer.create();
+    const html = await container.renderToString(Home);
+
+    expect(html).toContain('A community of students and teachers, learning the Word together.');
+    expect(html).toContain('class="community-band__cta" href="/about"');
+    expect(html).toContain('>About Us</a>');
   });
 });

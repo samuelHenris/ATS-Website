@@ -18,8 +18,10 @@ const academicLinks = [
 ---
 <nav class="nav">
   <a class="nav__logo" href="/">
-    <Image src={whiteLogo} alt="Agricola Theological Seminary" width={200} height={67} loading="eager" />
+    <Image src={whiteLogo} alt="Agricola Theological Seminary" width={240} height={80} loading="eager" />
   </a>
+  <input type="checkbox" id="nav-toggle" class="nav__toggle-checkbox" />
+  <label for="nav-toggle" class="nav__hamburger" aria-label="Open menu">&#9776;</label>
   <ul class="nav__links">
     {links.map((link) => (
       <li><a href={link.href}>{link.label}</a></li>
@@ -45,9 +47,16 @@ const academicLinks = [
     justify-content: space-between;
     align-items: center;
     padding: var(--space-2) var(--space-3);
-    position: relative;
-    z-index: 2;
-    background: var(--color-navy);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    background: linear-gradient(180deg, rgba(var(--color-navy-dark-rgb), 0.85), rgba(var(--color-navy-dark-rgb), 0));
+  }
+
+  .nav__toggle-checkbox {
+    display: none;
   }
 
   .nav__links {
@@ -70,6 +79,12 @@ const academicLinks = [
   .nav__donate {
     border: 1px solid var(--color-white);
     padding: 8px 16px;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  .nav__links > li > a.nav__donate:hover {
+    background: var(--color-white);
+    color: var(--color-navy);
   }
 
   .nav__dropdown details > summary {
@@ -84,6 +99,10 @@ const academicLinks = [
 
   .nav__dropdown details > summary::-webkit-details-marker {
     display: none;
+  }
+
+  .nav__dropdown details > summary::marker {
+    content: '';
   }
 
   .nav__dropdown-menu {
@@ -103,5 +122,57 @@ const academicLinks = [
     font-size: 12px;
     text-transform: none;
     letter-spacing: normal;
+  }
+
+  .nav__hamburger {
+    display: none;
+    cursor: pointer;
+    color: var(--color-white);
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  @media (max-width: 860px) {
+    .nav__hamburger {
+      display: block;
+    }
+
+    .nav__links {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      background: var(--color-navy);
+      padding: var(--space-2) var(--space-3);
+    }
+
+    .nav__toggle-checkbox:checked ~ .nav__links {
+      display: flex;
+    }
+
+    .nav__links > li > a {
+      display: block;
+      padding: var(--space-2) 0;
+    }
+
+    .nav__donate {
+      display: inline-block;
+      margin-top: var(--space-1);
+    }
+
+    .nav__dropdown-menu {
+      position: static;
+      background: none;
+      padding: 0 0 0 var(--space-2);
+      margin-top: 0;
+    }
+
+    .nav__dropdown-menu a {
+      color: var(--color-white);
+    }
   }
 </style>
