@@ -35,8 +35,10 @@ describe('Home page', () => {
     // Astro's server-side html-escaper escapes straight apostrophes in
     // interpolated text (e.g. "'" -> "&#39;"); this is correct, equivalent
     // rendered output, not a content change.
-    expect(html).toContain('Matti Itkonen, ATS &#39;24 graduate');
     expect(html).toContain('Dr. Preston Pearce');
+    expect(html).toContain("Raimo Survo, ATS &#39;24 graduate");
+    expect(html).not.toContain('Matti Itkonen');
+    expect(html).not.toContain('Dave Pike');
   });
 
   it('renders the community band section with a link to About', async () => {
