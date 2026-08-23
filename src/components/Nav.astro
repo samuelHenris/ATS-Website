@@ -20,7 +20,15 @@ const academicLinks = [
 ---
 <nav class="nav">
   <a class="nav__logo" href={`${base}/`}>
-    <Image src={whiteLogo} alt="Agricola Theological Seminary" width={240} height={80} loading="eager" />
+    <Image
+      src={whiteLogo}
+      alt="Agricola Theological Seminary"
+      width={240}
+      height={80}
+      densities={[1, 2]}
+      loading="eager"
+      format="png"
+    />
   </a>
   <input type="checkbox" id="nav-toggle" class="nav__toggle-checkbox" />
   <label for="nav-toggle" class="nav__hamburger" aria-label="Open menu">&#9776;</label>
