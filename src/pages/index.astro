@@ -12,6 +12,8 @@ import jeffPhoto from '../assets/images/testimonials/jeff-mooney.jpg';
 import raimoPhoto from '../assets/images/testimonials/raimo-survo.jpg';
 import eelisPhoto from '../assets/images/testimonials/eelis-halmemies.jpg';
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
 const programs = [
   {
     title: 'Bachelor of Theological Studies',
@@ -83,8 +85,8 @@ const spotlightData = testimonials.map((t, i) => ({
   <Hero
     kicker="Join us!"
     headline="Shaping Servants of the Word for the Church and the World."
-    primaryCta={{ label: 'Apply now', href: '/apply' }}
-    secondaryCta={{ label: 'Learn more', href: '/about' }}
+    primaryCta={{ label: 'Apply now', href: `${base}/apply` }}
+    secondaryCta={{ label: 'Learn more', href: `${base}/about` }}
     image={heroImage}
     imageAlt="Agricola Theological Seminary graduates at their commencement ceremony"
   />
@@ -95,7 +97,7 @@ const spotlightData = testimonials.map((t, i) => ({
       leaders to understand the Bible deeply and apply it faithfully in real ministry, all for
       God's glory.
     </p>
-    <a class="intro__cta" href="/apply">Apply</a>
+    <a class="intro__cta" href={`${base}/apply`}>Apply</a>
   </section>
 
   <section class="programs max-width">
@@ -103,10 +105,10 @@ const spotlightData = testimonials.map((t, i) => ({
     <h2>Our Degree Programs</h2>
     <div class="programs__grid">
       {programs.map((program, i) => (
-        <Card title={program.title} body={program.body} index={i + 1} href="/programs" />
+        <Card title={program.title} body={program.body} index={i + 1} href={`${base}/programs`} />
       ))}
     </div>
-    <a class="programs__cta" href="/programs">Learn More</a>
+    <a class="programs__cta" href={`${base}/programs`}>Learn More</a>
   </section>
 
   <section class="pull-quote">
@@ -192,7 +194,7 @@ const spotlightData = testimonials.map((t, i) => ({
     <div class="community-band__inner max-width">
       <span class="community-band__kicker">Life at Agricola</span>
       <h2 class="community-band__headline">A community of students and teachers, learning the Word together.</h2>
-      <a class="community-band__cta" href="/about">About Us</a>
+      <a class="community-band__cta" href={`${base}/about`}>About Us</a>
     </div>
   </section>
 </Layout>

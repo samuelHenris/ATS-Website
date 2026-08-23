@@ -3,16 +3,17 @@ import { Image } from 'astro:assets';
 import navyLogo from '../assets/images/logo-navy.png';
 
 const year = new Date().getFullYear();
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const quickLinks = [
-  { label: 'Contact', href: '/contact' },
-  { label: 'Programs', href: '/programs' },
-  { label: 'Apply', href: '/apply' },
+  { label: 'Contact', href: `${base}/contact` },
+  { label: 'Programs', href: `${base}/programs` },
+  { label: 'Apply', href: `${base}/apply` },
 ];
 
 const learnMoreLinks = [
-  { label: 'About ATS', href: '/about' },
-  { label: 'Leadership', href: '/leadership' },
+  { label: 'About ATS', href: `${base}/about` },
+  { label: 'Leadership', href: `${base}/leadership` },
 ];
 ---
 <footer class="footer">
@@ -37,7 +38,7 @@ const learnMoreLinks = [
           </ul>
         </div>
       </div>
-      <a class="footer__donate" href="/donate">Donate to ATS</a>
+      <a class="footer__donate" href={`${base}/donate`}>Donate to ATS</a>
     </div>
     <p class="footer__copyright">&copy; {year} Agricola Theological Seminary. All rights reserved.</p>
   </div>
