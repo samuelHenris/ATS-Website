@@ -18,7 +18,7 @@ const academicLinks = [
 ---
 <nav class="nav">
   <a class="nav__logo" href="/">
-    <Image src={whiteLogo} alt="Agricola Theological Seminary" width={200} height={67} />
+    <Image src={whiteLogo} alt="Agricola Theological Seminary" width={200} height={67} loading="eager" />
   </a>
   <ul class="nav__links">
     {links.map((link) => (
@@ -47,6 +47,7 @@ const academicLinks = [
     padding: var(--space-2) var(--space-3);
     position: relative;
     z-index: 2;
+    background: var(--color-navy);
   }
 
   .nav__links {
