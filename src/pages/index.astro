@@ -1,3 +1,207 @@
 ---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import Card from '../components/Card.astro';
+import heroImage from '../assets/images/hero-home.png';
+
+const programs = [
+  {
+    title: 'Master in Theological Studies',
+    body: 'This is a 2-3 year degree to prepare men and women ministry in the church.',
+  },
+  {
+    title: 'Master of Divinity',
+    body: 'This is a 3-4 year degree to prepare men for faithful church planting or/and pastoral ministry.',
+  },
+];
+
+const testimonials = [
+  {
+    quote:
+      "After two years of studying at ATS, I can affirm that though it was challenging – as it should be – it was all worth it. ATS gives you knowledge, tools, wisdom, sanctification, and community. ATS wants to give God all the glory and to raise workers for His fields. ATS is full of faith and thus it is pleasant to be there with faith in our Lord Jesus Christ.",
+    attribution: "Matti Itkonen, ATS '24 graduate",
+  },
+  {
+    quote:
+      "I'm honored to have been involved with ATS since its beginning. I appreciate the rigorous study of Scriptures, sound theology, mentoring, experience in ministry, and the care for students that ATS is intentional to provide.",
+    attribution: 'Dr. Preston Pearce',
+  },
+  {
+    quote:
+      'Not only did ATS give me a great foundation in theological education and practical ministry experience, it provided me with invaluable tools to pursue loving God with all my heart, soul, and mind.',
+    attribution: "Dave Pike, ATS '22 graduate",
+  },
+  {
+    quote:
+      'ATS is a unique educational experience. Rooted in a rigorous commitment to the local church, the students read top-tier evangelical scholarship and interact with historical and contemporary ideas. I am always reinvigorated after teaching there.',
+    attribution: 'Dr. Jeff Mooney, professor of Old Testament at California Baptist University',
+  },
+  {
+    quote:
+      "This seminary has helped me to understand well the overall message of the Bible and to see how the whole Bible is the Word of God. The school was not only focused on increasing theological knowledge but also on the students' character forming in order for them to be serving as pastors wherever they are. I am grateful to the Lord that this seminary exists for the well-being of Christ's Church.",
+    attribution: "Raimo Survo, ATS '24 graduate",
+  },
+  {
+    quote:
+      "My studies at ATS have had a significant impact on my own ministry and understanding of God's Word. I can warmly recommend the seminar to anyone who wants to grow both in their holistic understanding of the scriptures and in their communication.",
+    attribution: 'Eelis Halmemies, current ATS student',
+  },
+];
 ---
-<h1>Agricola Theological Seminary</h1>
+<Layout
+  title="Agricola Theological Seminary | Equipping the next generation of Bible teachers"
+  description="Agricola Theological Seminary trains future pastors, teachers, and leaders to understand the Bible deeply and apply it faithfully in real ministry."
+>
+  <Hero
+    kicker="Join us!"
+    headline="Shaping Servants of the Word for the Church and the World."
+    primaryCta={{ label: 'Apply now', href: '/apply' }}
+    secondaryCta={{ label: 'Learn more', href: '/about' }}
+    image={heroImage}
+    imageAlt="Agricola Theological Seminary community"
+  />
+
+  <section class="intro max-width">
+    <p>
+      At Agricola Theological Seminary, we're committed to training future pastors, teachers, and
+      leaders to understand the Bible deeply and apply it faithfully in real ministry, all for
+      God's glory.
+    </p>
+    <a class="intro__cta" href="/apply">Apply</a>
+  </section>
+
+  <section class="programs max-width">
+    <h2>Our Degree Programs</h2>
+    <div class="programs__grid">
+      {programs.map((program) => <Card title={program.title} body={program.body} />)}
+    </div>
+    <a class="programs__cta" href="/programs">Learn More</a>
+  </section>
+
+  <section class="pull-quote">
+    <blockquote class="max-width">
+      &ldquo;Let the word of Christ dwell in you richly, teaching and admonishing one another in
+      all wisdom, singing psalms and hymns and spiritual songs, with thankfulness in your hearts
+      to God.&rdquo;
+    </blockquote>
+    <cite>Colossians 3:16 (ESV)</cite>
+  </section>
+
+  <section class="testimonials max-width">
+    <h2>What Our Community Says</h2>
+    <div class="testimonials__list">
+      {testimonials.map((t) => (
+        <blockquote class="testimonial">
+          <p>&ldquo;{t.quote}&rdquo;</p>
+          <cite>- {t.attribution}</cite>
+        </blockquote>
+      ))}
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .intro {
+    padding: var(--space-5) var(--space-3);
+    text-align: center;
+  }
+
+  .intro p {
+    max-width: 640px;
+    margin: 0 auto var(--space-3);
+    font-size: 18px;
+    line-height: 1.6;
+  }
+
+  .intro__cta {
+    display: inline-block;
+    background: var(--color-navy);
+    color: var(--color-white);
+    padding: 12px 28px;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .programs {
+    padding: var(--space-5) var(--space-3);
+  }
+
+  .programs h2 {
+    text-align: center;
+    margin-bottom: var(--space-3);
+  }
+
+  .programs__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+  }
+
+  .programs__cta {
+    display: block;
+    text-align: center;
+    color: var(--color-navy);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .pull-quote {
+    background: var(--color-navy);
+    color: var(--color-white);
+    padding: var(--space-5) var(--space-3);
+    text-align: center;
+  }
+
+  .pull-quote blockquote {
+    font-family: var(--font-serif);
+    font-size: clamp(22px, 3vw, 30px);
+    line-height: 1.4;
+    margin: 0 auto var(--space-2);
+  }
+
+  .pull-quote cite {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.8;
+  }
+
+  .testimonials {
+    padding: var(--space-5) var(--space-3);
+  }
+
+  .testimonials h2 {
+    text-align: center;
+    margin-bottom: var(--space-3);
+  }
+
+  .testimonials__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-3);
+  }
+
+  .testimonial {
+    margin: 0;
+    padding: var(--space-3);
+    border: 1px solid rgba(28, 46, 71, 0.12);
+  }
+
+  .testimonial p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--color-ink);
+  }
+
+  .testimonial cite {
+    display: block;
+    margin-top: var(--space-1);
+    font-size: 13px;
+    color: var(--color-muted);
+    font-style: normal;
+  }
+</style>
