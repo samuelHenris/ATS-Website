@@ -19,7 +19,7 @@ interface Props {
 const { kicker, headline, primaryCta, secondaryCta, image, imageAlt } = Astro.props;
 ---
 <section class="hero">
-  <Image class="hero__bg" src={image} alt={imageAlt} width={1920} height={1080} />
+  <Image class="hero__bg" src={image} alt={imageAlt} width={1920} height={1080} loading="eager" fetchpriority="high" />
   <div class="hero__scrim"></div>
   <div class="hero__content max-width">
     <span class="hero__kicker">{kicker}</span>
