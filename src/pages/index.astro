@@ -4,26 +4,53 @@ import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
 import Card from '../components/Card.astro';
 import heroImage from '../assets/images/hero-home.jpg';
-import communityImage from '../assets/images/community-band.jpg';
+import bachelorPhoto from '../assets/images/programs/bachelor.jpg';
+import mtsPhoto from '../assets/images/programs/mts.jpg';
+import mdivPhoto from '../assets/images/programs/mdiv.jpg';
 import prestonPhoto from '../assets/images/testimonials/preston-pearce.jpg';
 import jeffPhoto from '../assets/images/testimonials/jeff-mooney.jpg';
 import raimoPhoto from '../assets/images/testimonials/raimo-survo.jpg';
 import eelisPhoto from '../assets/images/testimonials/eelis-halmemies.jpg';
+import agricolaPortrait from '../assets/images/about/mikael-agricola.jpg';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const news = [
+  {
+    title: 'ATS Partners with Gateway Seminary',
+    meta: "June 9, 2026 — Now offering fully accredited Master's programs.",
+  },
+  {
+    title: 'Seminary Days with Dr. Mooney',
+    meta: 'Aug 19–21, 2026',
+  },
+  {
+    title: 'Public Lectures Conference',
+    meta: 'Nov 6–7, 2026',
+  },
+];
 
 const programs = [
   {
     title: 'Bachelor of Theological Studies',
     body: 'This is a 3-4 year degree, with no prior degree required, to prepare men and women for serving in ministry.',
+    level: 'Undergraduate',
+    photo: bachelorPhoto,
+    photoAlt: 'Students in discussion at Agricola Theological Seminary',
   },
   {
     title: 'Master in Theological Studies',
     body: 'This is a 2-3 year degree to prepare men and women ministry in the church.',
+    level: 'Graduate',
+    photo: mtsPhoto,
+    photoAlt: 'Students studying in a classroom at Agricola Theological Seminary',
   },
   {
     title: 'Master of Divinity',
     body: 'This is a 3-4 year degree to prepare men for faithful church planting or/and pastoral ministry.',
+    level: 'Graduate',
+    photo: mdivPhoto,
+    photoAlt: 'Graduates in cap and gown at an Agricola Theological Seminary commencement ceremony',
   },
 ];
 
@@ -68,42 +95,50 @@ const spotlightData = testimonials.map((t, i) => ({
   title="Agricola Theological Seminary | Equipping the next generation of Bible teachers"
   description="Agricola Theological Seminary trains future pastors, teachers, and leaders to understand the Bible deeply and apply it faithfully in real ministry."
 >
+  <!-- videoId below is Carnegie Mellon's own commercial, used only as a demo placeholder. Swap for real ATS footage before this is ever shown outside this session. -->
   <Hero
     kicker="Join us!"
-    headline="Shaping Servants of the Word for the Church and the World."
+    headline={`Shaping <span class="hero__highlight">Servants</span> of the <span class="hero__highlight">Word</span> for the <span class="hero__highlight">Church</span> and the World.`}
     primaryCta={{ label: 'Apply now', href: `${base}/apply` }}
     secondaryCta={{ label: 'Learn more', href: `${base}/about` }}
     image={heroImage}
     imageAlt="Agricola Theological Seminary graduates at their commencement ceremony"
+    videoId="qM43gnigKgQ"
   />
 
-  <section class="intro max-width">
-    <p>
-      At Agricola Theological Seminary, we're committed to training future pastors, teachers, and
-      leaders to understand the Bible deeply and apply it faithfully in real ministry, all for
-      God's glory.
-    </p>
-    <a class="intro__cta" href={`${base}/apply`}>Apply</a>
+  <section class="news">
+    <span class="news__kicker">News</span>
+    <h2>Latest News</h2>
+    <div class="news__grid">
+      {news.map((item, i) => (
+        <a class="news__card" href={`${base}/news`}>
+          <span class="news__index">{String(i + 1).padStart(2, '0')}</span>
+          <h3 class="news__title">{item.title}</h3>
+          <p class="news__meta">{item.meta}</p>
+          <svg class="news__arrow" width="20" height="12" viewBox="0 0 29 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M27.8039 7.63642C28.1695 7.27091 28.1695 6.67831 27.8039 6.3128L21.8477 0.356543C21.4822 -0.00896263 20.8896 -0.00896263 20.5241 0.356543C20.1586 0.722049 20.1586 1.31465 20.5241 1.68016L25.8185 6.97461L20.5241 12.2691C20.1586 12.6346 20.1586 13.2272 20.5241 13.5927C20.8896 13.9582 21.4822 13.9582 21.8477 13.5927L27.8039 7.63642ZM0 7.91055H27.1421V6.03867H0V7.91055Z" fill="currentColor"/>
+          </svg>
+        </a>
+      ))}
+    </div>
+    <a class="news__more" href={`${base}/news`}>More News</a>
   </section>
 
   <section class="programs max-width">
     <span class="programs__kicker">Academic</span>
     <h2>Our Degree Programs</h2>
     <div class="programs__grid">
-      {programs.map((program, i) => (
-        <Card title={program.title} body={program.body} index={i + 1} href={`${base}/programs`} />
+      {programs.map((program) => (
+        <Card
+          title={program.title}
+          body={program.body}
+          level={program.level}
+          href={`${base}/programs`}
+          image={program.photo}
+          imageAlt={program.photoAlt}
+        />
       ))}
     </div>
-    <a class="programs__cta" href={`${base}/programs`}>Learn More</a>
-  </section>
-
-  <section class="pull-quote">
-    <blockquote class="max-width">
-      &ldquo;Let the word of Christ dwell in you richly, teaching and admonishing one another in
-      all wisdom, singing psalms and hymns and spiritual songs, with thankfulness in your hearts
-      to God.&rdquo;
-    </blockquote>
-    <cite>Colossians 3:16 (ESV)</cite>
   </section>
 
   <section class="testimonials max-width">
@@ -167,53 +202,129 @@ const spotlightData = testimonials.map((t, i) => ({
     </script>
   </section>
 
-  <section class="community-band">
-    <Image
-      class="community-band__bg"
-      src={communityImage}
-      alt="Students and faculty in discussion at Agricola Theological Seminary"
-      width={1600}
-      height={1067}
-      loading="lazy"
-    />
-    <div class="community-band__scrim"></div>
-    <div class="community-band__inner max-width">
-      <span class="community-band__kicker">Life at Agricola</span>
-      <h2 class="community-band__headline">A community of students and teachers, learning the Word together.</h2>
-      <a class="community-band__cta" href={`${base}/about`}>About Us</a>
+  <section class="pull-quote max-width">
+    <a class="pull-quote__aside" href={`${base}/doctrine`}>
+      <Image class="pull-quote__photo" src={agricolaPortrait} alt="Portrait of Mikael Agricola by Albert Edelfelt" width={96} height={126} />
+      <p class="pull-quote__aside-text">
+        Mikael Agricola (c. 1510–1557) studied under Martin Luther in Wittenberg, then translated
+        the New Testament into Finnish and became Finland's first Protestant bishop. His legacy
+        still shapes our doctrine today.
+      </p>
+      <span class="pull-quote__aside-link">Read Our Doctrine</span>
+    </a>
+    <div class="pull-quote__verse">
+      <blockquote>
+        &ldquo;Let the word of Christ dwell in you richly, teaching and admonishing one another in
+        all wisdom, singing psalms and hymns and spiritual songs, with thankfulness in your hearts
+        to God.&rdquo;
+      </blockquote>
+      <cite>Colossians 3:16 (ESV)</cite>
     </div>
   </section>
 </Layout>
 
 <style>
-  .intro {
+  .news {
+    max-width: 1480px;
+    margin: 0 auto;
     padding: var(--space-5) var(--space-3);
     text-align: center;
   }
 
-  .intro p {
-    max-width: 640px;
-    margin: 0 auto var(--space-3);
-    font-family: 'Lora', var(--font-serif);
-    font-size: 19px;
-    line-height: 1.65;
+  .news__kicker {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #000000;
+    margin-bottom: var(--space-2);
   }
 
-  .intro__cta {
-    display: inline-block;
-    background: var(--color-navy);
-    color: var(--color-white);
-    padding: 12px 28px;
+  .news h2 {
+    font-size: clamp(28px, 4vw, 36px);
+    color: #000000;
+    margin-bottom: var(--space-4);
+  }
+
+  .news__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-3);
+    text-align: left;
+  }
+
+  .news__card {
+    display: block;
+    background: rgba(45, 71, 100, 0.06);
+    padding: var(--space-4);
+    color: inherit;
+    text-decoration: none;
+    transition: background 0.15s ease;
+    position: relative;
+  }
+
+  .news__card:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: calc(var(--space-4) / -2);
+    width: 1px;
+    background: var(--color-border);
+  }
+
+  .news__card:hover {
+    background: rgba(45, 71, 100, 0.1);
+  }
+
+  .news__index {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--color-navy);
+    margin-bottom: var(--space-2);
+  }
+
+  .news__title {
+    font-size: 21px;
+    margin-bottom: var(--space-2);
+  }
+
+  .news__meta {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--color-muted);
+    margin: 0 0 var(--space-3);
+  }
+
+  .news__arrow {
+    color: var(--color-navy);
+    transition: transform 0.15s ease;
+  }
+
+  .news__card:hover .news__arrow {
+    transform: translateX(4px);
+  }
+
+  .news__more {
+    display: block;
+    text-align: right;
+    color: var(--color-navy);
     font-size: 12px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    border: 1px solid var(--color-navy);
-    transition: background-color 0.15s ease, color 0.15s ease;
+    text-decoration: none;
+    transition: color 0.15s ease;
   }
 
-  .intro__cta:hover {
-    background: transparent;
-    color: var(--color-navy);
+  .news__more:hover {
+    color: var(--color-navy-dark);
+    text-decoration: underline;
   }
 
   .programs {
@@ -224,14 +335,16 @@ const spotlightData = testimonials.map((t, i) => ({
   .programs__kicker {
     display: block;
     font-family: var(--font-sans);
-    font-size: 12px;
+    font-size: 13px;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--color-muted);
-    margin-bottom: var(--space-1);
+    color: #000000;
+    margin-bottom: var(--space-2);
   }
 
   .programs h2 {
+    font-size: clamp(28px, 4vw, 36px);
+    color: #000000;
     margin-bottom: var(--space-4);
   }
 
@@ -242,34 +355,67 @@ const spotlightData = testimonials.map((t, i) => ({
     margin-bottom: var(--space-3);
   }
 
-  .programs__cta {
+  .pull-quote {
+    display: grid;
+    grid-template-columns: minmax(200px, 280px) 1fr;
+    gap: var(--space-4);
+    align-items: center;
+    background: var(--color-white);
+    padding: var(--space-5) var(--space-3);
+  }
+
+  .pull-quote__aside {
     display: block;
     text-align: center;
-    color: var(--color-navy);
-    font-size: 12px;
+    padding-right: var(--space-4);
+    border-right: 1px solid var(--color-border);
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .pull-quote__photo {
+    width: 84px;
+    height: 110px;
+    object-fit: cover;
+    margin: 0 auto var(--space-2);
+    border: 1px solid var(--color-border);
+  }
+
+  .pull-quote__aside-text {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--color-muted);
+    margin: 0 0 var(--space-2);
+  }
+
+  .pull-quote__aside-link {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    text-decoration: none;
-    transition: color 0.15s ease;
+    color: var(--color-navy);
+    border-bottom: 1px solid var(--color-navy);
+    transition: color 0.15s ease, border-color 0.15s ease;
   }
 
-  .programs__cta:hover {
+  .pull-quote__aside:hover .pull-quote__aside-link {
     color: var(--color-navy-dark);
-    text-decoration: underline;
+    border-color: var(--color-navy-dark);
   }
 
-  .pull-quote {
-    background: var(--color-navy);
-    color: var(--color-white);
-    padding: var(--space-5) var(--space-3);
-    text-align: center;
+  .pull-quote__verse {
+    text-align: left;
+    color: var(--color-ink);
   }
 
   .pull-quote blockquote {
     font-family: var(--font-serif);
     font-size: clamp(22px, 3vw, 30px);
     line-height: 1.4;
-    margin: 0 auto var(--space-2);
+    margin: 0 0 var(--space-2);
   }
 
   .pull-quote cite {
@@ -277,7 +423,7 @@ const spotlightData = testimonials.map((t, i) => ({
     font-size: 13px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    opacity: 0.8;
+    color: var(--color-muted);
   }
 
   .testimonials {
@@ -288,22 +434,23 @@ const spotlightData = testimonials.map((t, i) => ({
     display: block;
     text-align: center;
     font-family: var(--font-sans);
-    font-size: 12px;
+    font-size: 13px;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--color-muted);
+    color: #000000;
     margin-bottom: var(--space-1);
   }
 
   .testimonials h2 {
     text-align: center;
+    font-size: clamp(28px, 4vw, 36px);
+    color: #000000;
     margin-bottom: var(--space-4);
   }
 
   .testimonial-spotlight {
     position: relative;
-    background: var(--color-navy);
-    border-radius: 12px;
+    background: var(--color-navy-dark);
     padding: var(--space-4);
     display: flex;
     align-items: center;
@@ -419,76 +566,22 @@ const spotlightData = testimonials.map((t, i) => ({
       flex-direction: column;
       text-align: center;
     }
+
+    .pull-quote {
+      grid-template-columns: 1fr;
+    }
+
+    .pull-quote__aside {
+      padding-right: 0;
+      padding-bottom: var(--space-4);
+      border-right: none;
+      border-bottom: 1px solid var(--color-border);
+      margin-bottom: var(--space-4);
+    }
+
+    .pull-quote__verse {
+      text-align: center;
+    }
   }
 
-  .community-band {
-    position: relative;
-    min-height: 400px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-
-  .community-band__bg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 38%;
-  }
-
-  .community-band__scrim {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(var(--color-navy-dark-rgb), 0.35), rgba(var(--color-navy-dark-rgb), 0.75));
-  }
-
-  .community-band__inner {
-    position: relative;
-    z-index: 1;
-    text-align: center;
-    padding: var(--space-5) var(--space-3);
-  }
-
-  .community-band__kicker {
-    display: block;
-    font-family: var(--font-sans);
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--color-white);
-    opacity: 0.85;
-    margin-bottom: var(--space-2);
-  }
-
-  .community-band__headline {
-    font-family: var(--font-serif);
-    font-weight: 400;
-    font-size: clamp(26px, 4vw, 34px);
-    color: var(--color-white);
-    max-width: 620px;
-    margin: 0 auto var(--space-3);
-    line-height: 1.3;
-  }
-
-  .community-band__cta {
-    display: inline-block;
-    background: var(--color-white);
-    color: var(--color-navy);
-    border: 1px solid var(--color-white);
-    padding: 13px 28px;
-    font-family: var(--font-sans);
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    font-weight: 600;
-    transition: background-color 0.15s ease, color 0.15s ease;
-  }
-
-  .community-band__cta:hover {
-    background: transparent;
-    color: var(--color-white);
-  }
 </style>

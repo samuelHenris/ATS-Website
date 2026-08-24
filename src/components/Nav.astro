@@ -51,18 +51,35 @@ const academicLinks = [
   </ul>
 </nav>
 
+<script>
+  const nav = document.querySelector('.nav');
+  if (nav) {
+    const updateScrolled = () => {
+      nav.classList.toggle('nav--scrolled', window.scrollY > 40);
+    };
+    updateScrolled();
+    window.addEventListener('scroll', updateScrolled, { passive: true });
+  }
+</script>
+
 <style>
   .nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: var(--space-2) var(--space-3);
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 10;
     background: linear-gradient(180deg, rgba(var(--color-navy-dark-rgb), 0.85), rgba(var(--color-navy-dark-rgb), 0));
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .nav.nav--scrolled {
+    background: var(--color-navy-dark);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
   }
 
   .nav__toggle-checkbox {

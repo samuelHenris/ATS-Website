@@ -1,36 +1,64 @@
 ---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
 interface Props {
   title: string;
   body: string;
   index?: number;
   href?: string;
+  image?: ImageMetadata;
+  imageAlt?: string;
+  level?: string;
 }
 
-const { title, body, index, href } = Astro.props;
+const { title, body, index, href, image, imageAlt, level } = Astro.props;
 const number = typeof index === 'number' ? String(index).padStart(2, '0') : null;
 const Tag = href ? 'a' : 'div';
 ---
-<Tag class="card" href={href}>
-  {number && <span class="card__index">{number}</span>}
-  <h3 class="card__title">{title}</h3>
-  <p class="card__body">{body}</p>
+<Tag class={image ? 'card card--photo' : 'card'} href={href}>
+  {image ? (
+    <>
+      <div class="card__bg" aria-hidden="true"></div>
+      <div class="card__photo">
+        <Image class="card__image" src={image} alt={imageAlt ?? title} width={500} height={625} />
+      </div>
+      <div class="card__caption">
+        <h3 class="card__title">{title}</h3>
+        {level && <span class="card__level">{level}</span>}
+      </div>
+    </>
+  ) : (
+    <div class="card__content">
+      {number && <span class="card__index">{number}</span>}
+      <h3 class="card__title">{title}</h3>
+      <p class="card__body">{body}</p>
+    </div>
+  )}
 </Tag>
 
 <style>
   .card {
     display: block;
-    border: 1px solid var(--color-border);
-    border-top: 3px solid var(--color-navy);
-    padding: var(--space-4) var(--space-3) var(--space-3);
     color: inherit;
     text-decoration: none;
+  }
+
+  .card:not(.card--photo) {
+    border: 1px solid var(--color-border);
+    border-top: 3px solid var(--color-navy);
+    overflow: hidden;
     transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
   }
 
-  a.card:hover {
+  a.card:not(.card--photo):hover {
     transform: translateY(-3px);
     box-shadow: 0 12px 24px rgba(var(--color-navy-rgb), 0.1);
     border-color: var(--color-navy);
+  }
+
+  .card__content {
+    padding: var(--space-4) var(--space-3) var(--space-3);
   }
 
   .card__index {
@@ -53,5 +81,72 @@ const Tag = href ? 'a' : 'div';
     font-size: 14px;
     line-height: 1.6;
     margin: 0;
+  }
+
+  /* Photo variant: photo on top, white caption box overlapping the bottom
+     edge on a navy backdrop. The navy backdrop peeks past the photo's own
+     edges enough to always overlap the neighboring card's backdrop, so the
+     row reads as one continuous band with no visible seam between cards. */
+  .card--photo {
+    position: relative;
+    margin-bottom: 90px;
+  }
+
+  .card__bg {
+    position: absolute;
+    top: 45%;
+    bottom: -90px;
+    left: -22px;
+    right: -22px;
+    background: var(--color-navy-dark);
+    z-index: 0;
+  }
+
+  .card__photo {
+    position: relative;
+    z-index: 1;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+  }
+
+  .card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .card__caption {
+    position: absolute;
+    left: 6px;
+    right: 6px;
+    bottom: -56px;
+    z-index: 2;
+    background: var(--color-white);
+    padding: var(--space-3) var(--space-2);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  a.card--photo:hover .card__caption {
+    transform: translateY(-28px);
+    box-shadow: 0 18px 32px rgba(0, 0, 0, 0.24);
+  }
+
+  .card--photo .card__title {
+    font-size: 21px;
+    line-height: 1.25;
+    color: var(--color-navy);
+    margin: 0 0 8px;
+  }
+
+  .card__level {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #6b8caf;
   }
 </style>
