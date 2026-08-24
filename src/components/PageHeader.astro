@@ -1,0 +1,198 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Slide {
+  image: ImageMetadata;
+  alt: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  slides: Slide[];
+}
+
+const { title, description, slides } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const perSlideSeconds = 8;
+const duration = slides.length * perSlideSeconds;
+---
+<section class="page-header max-width">
+  <div class="page-header__lines" aria-hidden="true">
+    <span></span>
+    <span></span>
+  </div>
+  <div class="page-header__text">
+    <h1>{title}</h1>
+    <p>{description}</p>
+    <nav class="page-header__breadcrumb" aria-label="Breadcrumb">
+      <a href={`${base}/`}>Home</a>
+      <span class="page-header__current">{title}</span>
+    </nav>
+  </div>
+  <div class="page-header__photo-wrap">
+    <div class="page-header__photo-bg"></div>
+    <div class="page-header__photo-frame" style={`--cycle-duration: ${duration}s;`}>
+      {slides.map((slide, i) => (
+        <Image
+          class="page-header__photo"
+          src={slide.image}
+          alt={slide.alt}
+          width={840}
+          height={620}
+          loading={i === 0 ? 'eager' : 'lazy'}
+          style={`animation-delay: ${i * perSlideSeconds}s;`}
+        />
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .page-header {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: var(--space-5);
+    align-items: center;
+    padding: calc(var(--space-5) + 64px) var(--space-3) var(--space-5);
+  }
+
+  .page-header__lines {
+    position: absolute;
+    top: 0;
+    left: var(--space-3);
+    height: 270px;
+    display: flex;
+    gap: 260px;
+    pointer-events: none;
+  }
+
+  .page-header__lines span {
+    width: 1px;
+    height: 100%;
+    background: var(--color-border);
+  }
+
+  .page-header__text h1 {
+    font-size: clamp(40px, 6vw, 64px);
+    color: var(--color-navy);
+    line-height: 1.05;
+    margin-bottom: var(--space-3);
+  }
+
+  .page-header__text p {
+    font-family: 'Lora', var(--font-serif);
+    font-style: italic;
+    color: var(--color-muted);
+    font-size: 17px;
+    line-height: 1.6;
+    max-width: 420px;
+    margin: 0 0 var(--space-3);
+  }
+
+  .page-header__breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .page-header__breadcrumb a {
+    display: inline-block;
+    color: var(--color-navy);
+    border: 1px solid var(--color-navy);
+    padding: 6px 14px;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  .page-header__breadcrumb a:hover {
+    background: var(--color-navy);
+    color: var(--color-white);
+  }
+
+  .page-header__current {
+    display: inline-block;
+    background: var(--color-navy);
+    color: var(--color-white);
+    padding: 6px 14px;
+  }
+
+  .page-header__photo-wrap {
+    position: relative;
+    margin-top: var(--space-4);
+  }
+
+  .page-header__photo-wrap::before {
+    content: '';
+    position: absolute;
+    top: calc(-1 * (var(--space-5) + 64px + var(--space-4)));
+    left: calc(-1 * var(--space-5) / 2);
+    width: 1px;
+    height: calc(100% + var(--space-5) + 64px + var(--space-4));
+    background: var(--color-border);
+  }
+
+  .page-header__photo-bg {
+    position: absolute;
+    left: 32px;
+    right: -64px;
+    bottom: -32px;
+    top: 15%;
+    background: rgba(45, 71, 100, 0.08);
+    z-index: 0;
+  }
+
+  .page-header__photo-frame {
+    position: relative;
+    z-index: 1;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+
+  .page-header__photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    animation: page-header-fade var(--cycle-duration) infinite;
+  }
+
+  @keyframes page-header-fade {
+    0% { opacity: 0; }
+    6% { opacity: 1; }
+    14% { opacity: 1; }
+    20% { opacity: 0; }
+    100% { opacity: 0; }
+  }
+
+  @media (max-width: 860px) {
+    .page-header {
+      grid-template-columns: 1fr;
+      padding-top: calc(var(--space-4) + 64px);
+    }
+
+    .page-header__photo-wrap {
+      order: -1;
+      margin-top: 0;
+      margin-bottom: var(--space-4);
+    }
+
+    .page-header__text p {
+      max-width: none;
+    }
+
+    .page-header__lines,
+    .page-header__photo-wrap::before {
+      display: none;
+    }
+  }
+</style>

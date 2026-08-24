@@ -1,0 +1,337 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import agricolaPortrait from '../assets/images/about/mikael-agricola.jpg';
+import grad1 from '../assets/images/about/carousel/graduation-1.jpg';
+import grad2 from '../assets/images/about/carousel/graduation-2.jpg';
+import grad3 from '../assets/images/about/carousel/graduation-3.jpg';
+import grad4 from '../assets/images/about/carousel/graduation-4.jpg';
+import grad5 from '../assets/images/about/carousel/graduation-5.jpg';
+import faithPhoto from '../assets/images/about/values/faith.jpg';
+import joyPhoto from '../assets/images/about/values/joy.jpg';
+import historyPhoto from '../assets/images/about/values/history.jpg';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const headerSlides = [
+  { image: grad1, alt: 'ATS community gathered together' },
+  { image: grad2, alt: 'ATS community gathered outdoors' },
+  { image: grad3, alt: 'Graduates at an Agricola Theological Seminary commencement ceremony' },
+  { image: grad4, alt: 'Graduates at an Agricola Theological Seminary commencement ceremony, 27 May 2022' },
+  { image: grad5, alt: 'Graduates holding certificates in front of the Agricola Theological Seminary crest' },
+];
+
+const values = [
+  {
+    title: 'Faith',
+    body: 'There is no greater or more basic act for human beings than to believe that their Creator exists and that He has brought salvation through His Son Jesus Christ alone, that is, to have faith. Our goal is that our graduates will deepen their own faith and work to nourish the faith of those under their care in their congregations.',
+    photo: faithPhoto,
+    photoAlt: 'An open Bible',
+  },
+  {
+    title: 'Joy',
+    body: 'The Triune God is the source of all life, goodness, love, and joy. Therefore, the Christian and the church should be overflowing with the joy that is a fruit of God’s presence. The first duty of the pastor is to be joyful in God through Christ, and to proclaim that same joy to the church and world.',
+    photo: joyPhoto,
+    photoAlt: 'A joyful child',
+  },
+  {
+    title: 'History',
+    body: 'In His wisdom and love, God providentially orders and governs all of history for His glory and for the good of His people. ATS’s program seeks to connect its curriculum and graduates to that history of redemption, so that churches may marvel at God’s preservation and guidance of His people in grace and truth.',
+    photo: historyPhoto,
+    photoAlt: 'Three crosses silhouetted against a sunset sky',
+  },
+];
+---
+<Layout
+  title="About ATS | Agricola Theological Seminary"
+  description="Agricola Theological Seminary is a local, church-based training institute that exists to serve the Church by preparing pastor-theologians and Christians to serve local churches by the Word of God."
+>
+  <PageHeader
+    title="About"
+    description="A local, church-based training institute, preparing men and women for the ministry of the Word of God, so His holy name may be glorified."
+    slides={headerSlides}
+  />
+
+  <section class="mission max-width">
+    <div class="mission__heading">
+      <span class="section__kicker">Mission</span>
+      <h2>Our Mission</h2>
+    </div>
+    <div class="mission__body">
+      <p class="mission__lead">
+        Agricola Theological Seminary is a local, church-based training institute that exists to
+        serve the Church by preparing pastor-theologians and Christians to serve the local churches
+        by the Word of God so that God's people can be nourished by his Word and his holy name be
+        glorified.
+      </p>
+      <p>
+        The only institution that will last past the end of history is the same that the Bible
+        calls "the Bride of Christ": the church. Thus, ATS exists to serve the church by preparing
+        pastor-theologians to shepherd local churches by the Word of God. Our theology and
+        curriculum are formed in conscious participation in and service of the church. God, who
+        wishes for his name to be worshiped in all creation, is still working to spread the gospel
+        of his Son to all the corners of the earth, to every tribe and nation, for the joy of all
+        peoples.
+      </p>
+      <p>
+        ATS intentionally emphasizes this mission of God so that its pastoral graduates will bring
+        that vision to their new congregations in Finland. It is only by his Word that man knows
+        God, and it is God's Word — through the prophets and apostles — by which man is to live.
+        Therefore, we believe that Christian theology, Christian ministry, and Christian living
+        cannot exist apart from the hearing of the Word of God. God and his Word are the primary
+        focus of our curriculum, and will be the primary focus of our pastoral graduates.
+      </p>
+      <p>
+        To achieve this, we focus on Christ, community, and character. We study Scripture to better
+        know Christ, his gospel, and the richness of his Word. We encourage community by coming
+        together on learning days prepared to engage and encourage each other. We develop and
+        maintain character through the ATS student covenant, providing accountability and integrity
+        to our students' learning.
+      </p>
+    </div>
+  </section>
+
+  <section class="values max-width">
+    <span class="section__kicker">Values</span>
+    <h2>Our Values</h2>
+    <div class="values__grid">
+      {values.map((value) => (
+        <div class="values__card">
+          <div class="values__card-bg" aria-hidden="true"></div>
+          <div class="values__card-photo">
+            <Image src={value.photo} alt={value.photoAlt} width={400} height={280} />
+          </div>
+          <div class="values__card-body">
+            <h3>{value.title}</h3>
+            <p>{value.body}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="history max-width">
+    <div class="history__heading">
+      <span class="section__kicker">History</span>
+      <h2>Our History</h2>
+    </div>
+    <div class="history__body">
+      <p>
+        Agricola Theological Seminary began as a cooperative effort between two local church plants
+        in Finland's capital region in 2010. Seeking to train elders and leaders in their respective
+        congregations, the planting pastors initially cultivated leaders through a robust reading
+        plan and mentoring relationships. Though it was never the intention to move beyond the
+        borders of the founding churches, over the years the vision for ATS expanded into a strong
+        emphasis on the local church, the training of pastoral theologians and expository
+        preachers, and for robust biblical theology that is joyful. Along the way, ATS has been
+        helped by the generosity of many visiting teaching fellows, academic partners, and
+        individual mentors. Today the institute joyfully submits to the authority of its founding
+        churches while offering training programs and degrees to those around Finland and from
+        abroad.
+      </p>
+    </div>
+  </section>
+
+  <section class="agricola max-width">
+    <Image class="agricola__photo" src={agricolaPortrait} alt="Portrait of Mikael Agricola by Albert Edelfelt" width={220} height={288} />
+    <div class="agricola__text">
+      <span class="section__kicker">Our Namesake</span>
+      <h2>Mikael Agricola</h2>
+      <p>
+        Few know the name of Mikael Agricola (c. 1510 – 9 April 1557) outside Finland; however,
+        his legacy of dedication to the Bible in its original languages, the theology of the
+        Reformation, the beauty of creation and culture, and the Finnish language and people is a
+        great influence on our vision of Christian ministry and education. Agricola studied under
+        Martin Luther in Wittenberg, then became the father of the modern Finnish language when he
+        translated and published the New Testament in Finnish in 1548. He was Finland's first
+        Protestant bishop, as well as the principal of a theological school and a Renaissance
+        thinker.
+      </p>
+      <a class="agricola__link" href={`${base}/doctrine`}>Read Our Doctrine</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .section__kicker {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #000000;
+    margin-bottom: var(--space-2);
+  }
+
+  .mission,
+  .history {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: var(--space-5);
+    align-items: start;
+    padding: var(--space-5) var(--space-3);
+  }
+
+  .values {
+    padding: var(--space-5) var(--space-3);
+  }
+
+  .mission h2,
+  .values h2,
+  .history h2 {
+    font-size: clamp(28px, 4vw, 36px);
+    color: #000000;
+    margin-bottom: 0;
+  }
+
+  .mission p,
+  .history p {
+    font-family: 'Lora', var(--font-serif);
+    color: var(--color-ink);
+    font-size: 15px;
+    line-height: 1.65;
+    margin: 0 0 var(--space-2);
+  }
+
+  .mission__lead {
+    font-weight: 700;
+  }
+
+  .values {
+    background: rgba(45, 71, 100, 0.04);
+  }
+
+  .values h2 {
+    margin-bottom: var(--space-3);
+  }
+
+  @media (max-width: 860px) {
+    .mission,
+    .history {
+      grid-template-columns: 1fr;
+    }
+
+    .mission__heading,
+    .history__heading {
+      margin-bottom: var(--space-2);
+    }
+  }
+
+  .values__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--space-4);
+    row-gap: 56px;
+  }
+
+  .values__card {
+    position: relative;
+  }
+
+  .values__card-bg {
+    position: absolute;
+    top: 30%;
+    bottom: -28px;
+    left: -18px;
+    right: -18px;
+    background: var(--color-navy-dark);
+    z-index: 0;
+  }
+
+  .values__card-photo {
+    position: relative;
+    z-index: 1;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+  }
+
+  .values__card-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .values__card:hover .values__card-photo img {
+    transform: scale(1.04);
+  }
+
+  .values__card-body {
+    position: relative;
+    z-index: 2;
+    background: var(--color-white);
+    margin: -28px var(--space-2) 0;
+    padding: var(--space-3) var(--space-3) var(--space-2);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.14);
+  }
+
+  .values__card h3 {
+    font-size: 22px;
+    color: var(--color-navy);
+    margin-bottom: var(--space-1);
+  }
+
+  .values__card p {
+    font-family: 'Lora', var(--font-serif);
+    color: var(--color-muted);
+    font-size: 15px;
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  .agricola {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: var(--space-4);
+    align-items: start;
+    padding: var(--space-5) var(--space-3) var(--space-5);
+  }
+
+  .agricola__photo {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--color-border);
+  }
+
+  .agricola__text h2 {
+    font-size: clamp(28px, 4vw, 36px);
+    color: #000000;
+    margin-bottom: var(--space-2);
+  }
+
+  .agricola__text p {
+    font-family: 'Lora', var(--font-serif);
+    color: var(--color-ink);
+    font-size: 15px;
+    line-height: 1.65;
+    margin: 0 0 var(--space-3);
+  }
+
+  .agricola__link {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-navy);
+    border-bottom: 1px solid var(--color-navy);
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .agricola__link:hover {
+    color: var(--color-navy-dark);
+    border-color: var(--color-navy-dark);
+  }
+
+  @media (max-width: 640px) {
+    .agricola {
+      grid-template-columns: 1fr;
+    }
+
+    .agricola__photo {
+      max-width: 220px;
+    }
+  }
+</style>
