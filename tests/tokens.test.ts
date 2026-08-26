@@ -6,7 +6,7 @@ describe('design tokens', () => {
     readFileSync(new URL('../src/styles/tokens.css', import.meta.url), 'utf-8');
 
   it('defines the approved navy/white palette', () => {
-    expect(css()).toContain('--color-navy: #2d4764;');
+    expect(css()).toContain('--color-navy: #314660;');
     expect(css()).toContain('--color-white: #ffffff;');
   });
 
