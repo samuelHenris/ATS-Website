@@ -1,0 +1,201 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import grad1 from '../assets/images/about/carousel/graduation-1.jpg';
+import grad2 from '../assets/images/about/carousel/graduation-2.jpg';
+import grad3 from '../assets/images/about/carousel/graduation-3.jpg';
+import grad4 from '../assets/images/about/carousel/graduation-4.jpg';
+import grad5 from '../assets/images/about/carousel/graduation-5.jpg';
+
+const headerSlides = [
+  { image: grad3, alt: 'Graduates on stage at an Agricola Theological Seminary commencement ceremony' },
+];
+
+// Placeholder items — swap in real news/announcements before launch.
+const items = [
+  {
+    kicker: '1. CAMPUS NEWS',
+    title: 'Campus News Headline Goes Here',
+    body: 'Placeholder text for a campus news update. Replace this with a real announcement before this page goes live.',
+    photo: grad2,
+    photoAlt: 'ATS community gathered outdoors',
+  },
+  {
+    kicker: '2. UPCOMING EVENT',
+    title: 'Upcoming Event Headline Goes Here',
+    body: 'Placeholder text for an upcoming event. Replace this with real event details before this page goes live.',
+    photo: grad1,
+    photoAlt: 'ATS community gathered together',
+  },
+  {
+    kicker: '3. ANNOUNCEMENT',
+    title: 'Announcement Headline Goes Here',
+    body: 'Placeholder text for a general announcement. Replace this with a real announcement before this page goes live.',
+    photo: grad4,
+    photoAlt: 'Graduates at an Agricola Theological Seminary commencement ceremony, 27 May 2022',
+  },
+  {
+    kicker: '4. STUDENT LIFE',
+    title: 'Student Life Headline Goes Here',
+    body: 'Placeholder text for a student life story. Replace this with a real story before this page goes live.',
+    photo: grad5,
+    photoAlt: 'Graduates holding certificates in front of the Agricola Theological Seminary crest',
+  },
+];
+---
+<Layout
+  title="News | Agricola Theological Seminary"
+  description="News, events, and announcements from Agricola Theological Seminary."
+>
+  <PageHeader
+    title="News"
+    description="Updates, events, and announcements from Agricola Theological Seminary."
+    slides={headerSlides}
+  />
+
+  <section class="news-zigzag max-width">
+    {items.map((item, i) => (
+      <div class:list={['news-zigzag__item', { 'news-zigzag__item--reverse': i % 2 === 1 }]}>
+        <div class="news-zigzag__photo-wrap">
+          <div class="news-zigzag__photo-bg" aria-hidden="true"></div>
+          <div class="news-zigzag__photo">
+            <Image src={item.photo} alt={item.photoAlt} width={700} height={520} />
+          </div>
+        </div>
+        <div class="news-zigzag__text">
+          <span class="news-zigzag__kicker">{item.kicker}</span>
+          <h2>{item.title}</h2>
+          <p>{item.body}</p>
+          {/* TODO: point at the real article once individual news pages exist */}
+          <a class="news-zigzag__cta" href="#">Read More</a>
+        </div>
+      </div>
+    ))}
+  </section>
+</Layout>
+
+<style>
+  .news-zigzag {
+    padding: var(--space-5) var(--space-3);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .news-zigzag__item {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: var(--space-5);
+    align-items: center;
+    padding-bottom: var(--space-5);
+    margin-bottom: var(--space-5);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .news-zigzag__item:last-child {
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border-bottom: none;
+  }
+
+  .news-zigzag__item--reverse {
+    grid-template-columns: 1.4fr 1fr;
+  }
+
+  .news-zigzag__item--reverse .news-zigzag__photo-wrap {
+    order: 2;
+  }
+
+  .news-zigzag__item--reverse .news-zigzag__text {
+    order: 1;
+  }
+
+  .news-zigzag__photo-wrap {
+    position: relative;
+  }
+
+  .news-zigzag__photo-bg {
+    position: absolute;
+    top: 30%;
+    bottom: -28px;
+    left: -18px;
+    right: -18px;
+    background: var(--color-navy);
+    z-index: 0;
+  }
+
+  .news-zigzag__photo {
+    position: relative;
+    z-index: 1;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+
+  .news-zigzag__photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .news-zigzag__photo-wrap:hover .news-zigzag__photo img {
+    transform: scale(1.04);
+  }
+
+  .news-zigzag__kicker {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-navy);
+    margin-bottom: var(--space-2);
+  }
+
+  .news-zigzag__text h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(28px, 3.6vw, 40px);
+    color: #000000;
+    line-height: 1.15;
+    margin-bottom: var(--space-2);
+  }
+
+  .news-zigzag__text p {
+    font-family: 'Lora', var(--font-serif);
+    color: var(--color-ink);
+    font-size: 15px;
+    line-height: 1.65;
+    margin: 0 0 var(--space-3);
+  }
+
+  .news-zigzag__cta {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-navy);
+    border: 1px solid var(--color-navy);
+    padding: 12px 22px;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  .news-zigzag__cta:hover {
+    background: var(--color-navy);
+    color: var(--color-white);
+  }
+
+  @media (max-width: 860px) {
+    .news-zigzag__item,
+    .news-zigzag__item--reverse {
+      grid-template-columns: 1fr;
+    }
+
+    .news-zigzag__item--reverse .news-zigzag__photo-wrap,
+    .news-zigzag__item--reverse .news-zigzag__text {
+      order: initial;
+    }
+  }
+</style>

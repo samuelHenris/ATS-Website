@@ -14,13 +14,28 @@ interface Props {
   secondaryCta: Cta;
   image: ImageMetadata;
   imageAlt: string;
+  mobileImage?: ImageMetadata;
+  mobileImageAlt?: string;
   videoId?: string;
 }
 
-const { kicker, headline, primaryCta, secondaryCta, image, imageAlt, videoId } = Astro.props;
+const {
+  kicker,
+  headline,
+  primaryCta,
+  secondaryCta,
+  image,
+  imageAlt,
+  mobileImage,
+  mobileImageAlt,
+  videoId,
+} = Astro.props;
 ---
 <section class="hero">
-  <Image class="hero__bg" src={image} alt={imageAlt} width={1920} height={1080} loading="eager" fetchpriority="high" />
+  <Image class="hero__bg hero__bg--desktop" src={image} alt={imageAlt} width={1920} height={1080} loading="eager" fetchpriority="high" />
+  {mobileImage && (
+    <Image class="hero__bg hero__bg--mobile" src={mobileImage} alt={mobileImageAlt ?? imageAlt} width={960} height={1280} loading="eager" fetchpriority="high" />
+  )}
   {videoId && (
     <div class="hero__bg-video-wrap" aria-hidden="true">
       <iframe
@@ -31,7 +46,6 @@ const { kicker, headline, primaryCta, secondaryCta, image, imageAlt, videoId } =
       ></iframe>
     </div>
   )}
-  <div class="hero__scrim"></div>
   <div class="hero__content max-width">
     <span class="hero__kicker">{kicker}</span>
     <h1 class="hero__headline" set:html={headline} />
@@ -58,13 +72,30 @@ const { kicker, headline, primaryCta, secondaryCta, image, imageAlt, videoId } =
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.35;
+  }
+
+  .hero__bg--mobile {
+    display: none;
   }
 
   .hero__bg-video-wrap {
     position: absolute;
     inset: 0;
     overflow: hidden;
+  }
+
+  @media (max-width: 640px) {
+    .hero__bg-video-wrap {
+      display: none;
+    }
+
+    .hero__bg--desktop {
+      display: none;
+    }
+
+    .hero__bg--mobile {
+      display: block;
+    }
   }
 
   .hero__bg-video {
@@ -78,12 +109,6 @@ const { kicker, headline, primaryCta, secondaryCta, image, imageAlt, videoId } =
     transform: translate(-50%, -50%);
     pointer-events: none;
     border: 0;
-  }
-
-  .hero__scrim {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(var(--color-navy-dark-rgb), 0.3), rgba(var(--color-navy-dark-rgb), 0.92));
   }
 
   .hero__content {
@@ -101,6 +126,7 @@ const { kicker, headline, primaryCta, secondaryCta, image, imageAlt, videoId } =
     color: var(--color-white);
     opacity: 0.8;
     margin-bottom: var(--space-2);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
   }
 
   .hero__headline {
@@ -109,6 +135,7 @@ const { kicker, headline, primaryCta, secondaryCta, image, imageAlt, videoId } =
     max-width: 720px;
     line-height: 1.1;
     margin-bottom: var(--space-3);
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
   }
 
   .hero__headline :global(.hero__highlight) {
@@ -166,7 +193,8 @@ const { kicker, headline, primaryCta, secondaryCta, image, imageAlt, videoId } =
   }
 
   .hero__btn--secondary {
-    border: 1px solid rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    background: rgba(0, 0, 0, 0.25);
     color: var(--color-white);
   }
 

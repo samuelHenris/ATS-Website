@@ -36,13 +36,13 @@ const duration = slides.length * perSlideSeconds;
     <div class="page-header__photo-frame" style={`--cycle-duration: ${duration}s;`}>
       {slides.map((slide, i) => (
         <Image
-          class="page-header__photo"
+          class:list={['page-header__photo', { 'page-header__photo--static': slides.length === 1 }]}
           src={slide.image}
           alt={slide.alt}
           width={840}
           height={620}
           loading={i === 0 ? 'eager' : 'lazy'}
-          style={`animation-delay: ${i * perSlideSeconds}s;`}
+          style={slides.length === 1 ? undefined : `animation-delay: ${i * perSlideSeconds}s;`}
         />
       ))}
     </div>
@@ -145,7 +145,7 @@ const duration = slides.length * perSlideSeconds;
     right: -64px;
     bottom: -32px;
     top: 15%;
-    background: rgba(45, 71, 100, 0.08);
+    background: rgba(49, 70, 96, 0.08);
     z-index: 0;
   }
 
@@ -164,6 +164,11 @@ const duration = slides.length * perSlideSeconds;
     object-fit: cover;
     opacity: 0;
     animation: page-header-fade var(--cycle-duration) infinite;
+  }
+
+  .page-header__photo--static {
+    opacity: 1;
+    animation: none;
   }
 
   @keyframes page-header-fade {
