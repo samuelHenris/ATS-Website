@@ -32,7 +32,9 @@ const {
 } = Astro.props;
 ---
 <section class="hero">
-  <Image class="hero__bg hero__bg--desktop" src={image} alt={imageAlt} width={1920} height={1080} loading="eager" fetchpriority="high" />
+  {!videoId && (
+    <Image class="hero__bg hero__bg--desktop" src={image} alt={imageAlt} width={1920} height={1080} loading="eager" fetchpriority="high" />
+  )}
   {mobileImage && (
     <Image class="hero__bg hero__bg--mobile" src={mobileImage} alt={mobileImageAlt ?? imageAlt} width={960} height={1280} loading="eager" fetchpriority="high" />
   )}
@@ -156,6 +158,19 @@ const {
     opacity: 0.9;
     border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
     transform: rotate(-1deg);
+  }
+
+  @media (max-width: 640px) {
+    .hero__headline {
+      line-height: 1.3;
+    }
+
+    .hero__headline :global(.hero__highlight)::after {
+      left: -2px;
+      right: -2px;
+      bottom: -3px;
+      height: 6px;
+    }
   }
 
   .hero__ctas {
