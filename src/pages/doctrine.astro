@@ -1,0 +1,487 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import faithPhoto from '../assets/images/about/values/faith.jpg';
+import crestMark from '../assets/images/crest-mark.png';
+
+const headerSlides = [
+  { image: faithPhoto, alt: 'An open Bible' },
+];
+
+const articles = [
+  {
+    title: 'The Tri-une God',
+    body: 'We believe in one God, eternally existing in three equally divine Persons: the Father, the Son and the Holy Spirit, who know, love and glorify one another. This one true and living God is infinitely perfect both in his love and in his holiness. He is the Creator of all things, visible and invisible, and is therefore worthy to receive all glory and adoration. Immortal and eternal, he perfectly and exhaustively knows the end from the beginning, sustains and sovereignly rules over all things, and providentially brings about his eternal good purposes to redeem a people for himself and restore his fallen creation, to the praise of his glorious grace.',
+  },
+  {
+    title: 'Revelation',
+    body: 'God has graciously disclosed his existence and power in the created order, and has supremely revealed himself to fallen human beings in the person of his Son, the incarnate Word. Moreover, this God is a speaking God who by his Spirit has graciously disclosed himself in human words: we believe that God has inspired the words preserved in the Scriptures, the 66 books of the Old and New Testaments, which are both record and means of his saving work in the world. These writings alone constitute the verbally inspired Word of God, which is utterly authoritative and without error in the original writings, complete in its revelation of his will for salvation, sufficient for all that God requires us to believe and do, and final in its authority over every domain of knowledge to which it speaks. We confess that both our finitude and our sinfulness preclude the possibility of knowing God’s truth exhaustively, but we affirm that, enlightened by the Spirit of God, we can know God’s revealed truth truly. The Bible is to be believed, as God’s instruction, in all that it teaches; obeyed, as God’s command, in all that it requires; and trusted, as God’s pledge, in all that it promises. As God’s people hear, believe, and do the Word, they are equipped as disciples of Christ and witnesses to the gospel.',
+  },
+  {
+    title: 'Creation of Humanity',
+    body: 'We believe that God created human beings, male and female, in his own image. Adam and Eve belonged to the created order that God himself declared to be very good, serving as God’s agents to care for, manage and govern creation, living in holy and devoted fellowship with their Maker. Men and women, equally made in the image of God, enjoy equal access to God by faith in Christ Jesus and are both called to move beyond passive self-indulgence to significant private and public engagement in family, church and civic life. Adam and Eve were made to complement each other in a one-flesh union that establishes the only normative pattern of sexual relations for men and women, such that marriage ultimately serves as a type of the union between Christ and His church. In God’s wise purposes, men and women are not simply interchangeable, but rather they complement each other in mutually enriching ways. God ordains that they assume distinctive roles which reflect the loving relationship between Christ and the church, the husband exercising headship in a way that displays the caring, sacrificial love of Christ, and the wife submitting to her husband in a way that models the love of the church for her Lord. In the ministry of the church, both men and women are encouraged to serve Christ and to be developed to their full potential in the manifold ministries of the people of God. The distinctive leadership role within the church given to qualified men is grounded in creation, fall and redemption and must not be sidelined by appeals to cultural developments.',
+  },
+  {
+    title: 'The Fall',
+    body: 'We believe that Adam, made in the image of God, distorted that image and forfeited his original blessedness—for himself and all his progeny—by falling into sin through Satan’s temptation. As a result, all human beings are alienated from God, corrupted in every aspect of their being (e.g., physically, mentally, volitionally, emotionally, spiritually) and condemned finally and irrevocably to death—apart from God’s own gracious intervention. The supreme need of all human beings is to be reconciled to the God under whose just and holy wrath we stand; the only hope of all human beings is the undeserved love of this same God, who alone can rescue us and restore us to himself.',
+  },
+  {
+    title: 'The Plan of God',
+    body: 'We believe that from all eternity God determined in grace to save a great multitude of guilty sinners from every tribe and language and people and nation, and to this end foreknew them and chose them. We believe that God justifies and sanctifies those who by grace have faith in Jesus, and that he will one day glorify them— all to the praise of his glorious grace. In love God commands and implores all people to repent and believe, having set his saving love on those he has chosen and having ordained Christ to be their Redeemer.',
+  },
+  {
+    title: 'The Gospel',
+    body: 'We believe that the gospel is the good news of Jesus Christ—God’s very wisdom. Utter folly to the world, even though it is the power of God to those who are being saved, this good news is christological, centering on the cross and resurrection: the gospel is not proclaimed if Christ is not proclaimed, and the authentic Christ has not been proclaimed if his death and resurrection are not central (the message is “Christ died for our sins ... [and] was raised”). This good news is biblical (his death and resurrection are according to the Scriptures), theological and salvific (Christ died for our sins, to reconcile us to God), historical (if the saving events did not happen, our faith is worthless, we are still in our sins, and we are to be pitied more than all others), apostolic (the message was entrusted to and transmitted by the apostles, who were witnesses of these saving events), and intensely personal (where it is received, believed and held firmly, individual persons are saved).',
+  },
+  {
+    title: 'The Redemption of Christ',
+    body: 'We believe that, moved by love and in obedience to his Father, the eternal Son became human: the Word became flesh, fully God and fully human being, one Person in two natures. The man Jesus, the promised Messiah of Israel, was conceived through the miraculous agency of the Holy Spirit, and was born of the virgin Mary. He perfectly obeyed his heavenly Father, lived a sinless life, performed miraculous signs, was crucified under Pontius Pilate, arose bodily from the dead on the third day and ascended into heaven. As the mediatorial King, he is seated at the right hand of God the Father, exercising in heaven and on earth all of God’s sovereignty, and is our High Priest and righteous Advocate. We believe that by his incarnation, life, death, resurrection and ascension, Jesus Christ acted as our representative and substitute. He did this so that in him we might become the righteousness of God: on the cross he canceled sin, propitiated God, and, by bearing the full penalty of our sins, reconciled to God all those who believe. By his resurrection Christ Jesus was vindicated by his Father, broke the power of death and defeated Satan who once had power over it, and brought everlasting life to all his people; by his ascension he has been forever exalted as Lord and has prepared a place for us to be with him. We believe that salvation is found in no one else, for there is no other name given under heaven by which we must be saved. Because God chose the lowly things of this world, the despised things, the things that are not, to nullify the things that are, no human being can ever boast before him— Christ Jesus has become for us wisdom from God—that is, our righteousness, holiness and redemption.',
+  },
+  {
+    title: 'The Justification of Sinners',
+    body: 'We believe that Christ, by his obedience and death, fully discharged the debt of all those who are justified. By his sacrifice, he bore in our stead the punishment due us for our sins, making a proper, real and full satisfaction to God’s justice on our behalf. By his perfect obedience he satisfied the just demands of God on our behalf, since by faith alone that perfect obedience is credited to all who trust in Christ alone for their acceptance with God. Inasmuch as Christ was given by the Father for us, and his obedience and punishment were accepted in place of our own, freely and not for anything in us, this justification is solely of free grace, in order that both the exact justice and the rich grace of God might be glorified in the justification of sinners. We believe that a zeal for personal and public obedience flows from this free justification.',
+  },
+  {
+    title: 'The Power of the Holy Spirit',
+    body: 'We believe that this salvation, attested in all Scripture and secured by Jesus Christ, is applied to his people by the Holy Spirit. Sent by the Father and the Son, the Holy Spirit glorifies the Lord Jesus Christ, and, as the “other” Paraclete, is present with and in believers. He convicts the world of sin, righteousness and judgment, and by his powerful and mysterious work regenerates spiritually dead sinners, awakening them to repentance and faith, baptizing them into union with the Lord Jesus, such that they are justified before God by grace alone through faith alone in Jesus Christ alone. By the Spirit’s agency, believers are renewed, sanctified and adopted into God’s family; they participate in the divine nature and receive his sovereignly distributed gifts. The Holy Spirit is himself the down payment of the promised inheritance, and in this age indwells, guides, instructs, equips, revives and empowers believers for Christ-like living and service.',
+  },
+  {
+    title: 'The Kingdom of God',
+    body: 'We believe that those who have been saved by the grace of God through union with Christ by faith and through regeneration by the Holy Spirit enter the kingdom of God and delight in the blessings of the new covenant: the forgiveness of sins, the inward transformation that awakens a desire to glorify, trust and obey God, and the prospect of the glory yet to be revealed. Good works constitute indispensable evidence of saving grace. Living as salt in a world that is decaying and light in a world that is dark, believers should neither withdraw into seclusion from the world, nor become indistinguishable from it: rather, we are to do good to the city, for all the glory and honor of the nations is to be offered up to the living God. Recognizing whose created order this is, and because we are citizens of God’s kingdom, we are to love our neighbors as ourselves, doing good to all, especially to those who belong to the household of God. The kingdom of God, already present but not fully realized, is the exercise of God’s sovereignty in the world toward the eventual redemption of all creation. The kingdom of God is an invasive power that plunders Satan’s dark kingdom and regenerates and renovates through repentance and faith the lives of individuals rescued from that kingdom. It therefore inevitably establishes a new community of human life together under God.',
+  },
+  {
+    title: 'God’s New People',
+    body: 'We believe that God’s new covenant people have already come to the heavenly Jerusalem; they are already seated with Christ in the heavenlies. This universal church is manifest in local churches of which Christ is the only Head; thus each “local church” is, in fact, the church, the household of God, the assembly of the living God, and the pillar and foundation of the truth. The church is the body of Christ, the apple of his eye, graven on his hands, and he has pledged himself to her forever. The church is distinguished by her gospel message, her sacred ordinances, her discipline, her great mission and, above all, by her love for God, and by her members’ love for one another and for the world. Crucially, this gospel we cherish has both personal and corporate dimensions, neither of which may properly be overlooked. Christ Jesus is our peace: he has not only brought about peace with God, but also peace between alienated peoples. His purpose was to create in himself one new humanity, thus making peace, and in one body to reconcile both Jew and Gentile to God through the cross, by which he put to death their hostility. The church serves as a sign of God’s future new world when its members live for the service of one another and their neighbors, rather than for self-focus. The church is the corporate dwelling place of God’s Spirit, and the continuing witness to God in the world.',
+  },
+  {
+    title: 'Baptism and the Lord’s Supper',
+    body: 'We believe that baptism and the Lord’s Supper are ordained by the Lord Jesus himself. The former is connected with entrance into the new covenant community, the latter with ongoing covenant renewal. Together they are simultaneously God’s pledge to us, divinely ordained means of grace, our public vows of submission to the once crucified and now resurrected Christ, and anticipations of his return and of the consummation of all things.',
+  },
+  {
+    title: 'The Restoration of All Things',
+    body: 'We believe in the personal, glorious and bodily return of our Lord Jesus Christ with his holy angels, when he will exercise his role as final Judge, and his kingdom will be consummated. We believe in the bodily resurrection of both the just and the unjust—the unjust to judgment and eternal conscious punishment in hell, as our Lord himself taught, and the just to eternal blessedness in the presence of him who sits on the throne and of the Lamb, in the new heaven and the new earth, the home of righteousness. On that day the church will be presented faultless before God by the obedience, suffering and triumph of Christ, all sin purged and its wretched effects forever banished. God will be all in all and his people will be enthralled by the immediacy of his ineffable holiness, and everything will be to the praise of his glorious grace.',
+  },
+];
+
+const values = [
+  {
+    title: 'Holy Scripture',
+    body: 'The Bible is central to your studies at ATS because it is through God’s Word that we come to know God and understand how we are to live. You’ll gain the tools to humbly study Scripture well for your own spiritual formation and for the edification of the church.',
+  },
+  {
+    title: 'Redemption History',
+    body: 'God’s redemption of all creation happens in time, through history. Your learning at ATS will connect to that history of redemption, so that you and the churches you serve may marvel at God’s loving guidance of his people and his restoration of all things.',
+  },
+  {
+    title: 'Ecclesial Commitment',
+    body: 'ATS exists to serve the church for the glory of God and all ATS activities are rooted in a commitment to encourage and strengthen the people of God.',
+  },
+  {
+    title: 'Reformed Heritage',
+    body: 'We are committed to the reformed heritage and theology that highlight the authority of God’s word and justification by faith alone by Christ alone for the glory of God.',
+  },
+  {
+    title: 'Learning Together',
+    body: 'You will learn together in community with others who are seeking to deepen their understanding of God and his Word. You’ll have the opportunity to develop rich relationships through theological discussions, shared meals, times of reflection, and your shared ATS experience.',
+  },
+  {
+    title: 'Spiritual Formation',
+    body: 'ATS provides a rich context in which you can grow spiritually, deepening your relationship with God and his people. Your formation in Christ is a critical part of your academic development.',
+  },
+  {
+    title: 'Ministry Apprenticeship',
+    body: 'Your theological studies will find practical expression in your service of a local church. This apprenticeship will allow you to root your learning in a variety of ministry contexts.',
+  },
+  {
+    title: 'Faculty Mentorship',
+    body: 'You will benefit from an ATS mentor who will be available to offer you guidance, counsel, and prayer. Your mentor will be one of your professors, so your mentorship will integrate seamlessly into your ATS experience.',
+  },
+];
+---
+<Layout
+  title="Doctrine | Agricola Theological Seminary"
+  description="Agricola Theological Seminary's doctrinal statement and the values that shape our teaching, community, and ministry preparation."
+>
+  <PageHeader
+    title="Doctrine"
+    description="“Truth is the agreement of our ideas with the ideas of God.” — Jonathan Edwards"
+    slides={headerSlides}
+  />
+
+  <section class="statement max-width">
+    <div class="statement__heading reveal">
+      <span class="section__kicker">Doctrinal Statement</span>
+      <h2>What We Believe</h2>
+      <p class="statement__attribution">Adopted from The Gospel Coalition’s Confessional Statement.</p>
+    </div>
+    <div class="statement__list">
+      {articles.map((article, i) => (
+        <div class="scroll reveal" data-collapsed="true" style={`--i: ${i % 8}`}>
+          <button
+            class="scroll__bar"
+            type="button"
+            aria-expanded="false"
+            aria-controls={`scroll-panel-${i}`}
+          >
+            <span class="scroll__seal" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <span class="scroll__title">{article.title}</span>
+          </button>
+          <div class="scroll__panel" id={`scroll-panel-${i}`}>
+            <div class="scroll__panel-inner">
+              <Image class="scroll__watermark" src={crestMark} alt="" aria-hidden="true" width={220} height={240} />
+              <p class="scroll__text">{article.body}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="values max-width">
+    <div class="values__heading reveal">
+      <span class="section__kicker">Our Values</span>
+      <h2>Our Values</h2>
+    </div>
+    <div class="values__grid">
+      {values.map((value, i) => (
+        <div class="values__card reveal" style={`--i: ${i % 4}`}>
+          <span class="values__number">{String(i + 1).padStart(2, '0')}</span>
+          <h3>{value.title}</h3>
+          <p>{value.body}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .section__kicker {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #000000;
+    margin-bottom: var(--space-2);
+  }
+
+  .statement {
+    padding: var(--space-5) var(--space-3);
+  }
+
+  .statement__heading h2 {
+    font-size: clamp(28px, 4vw, 36px);
+    color: #000000;
+    margin-bottom: var(--space-2);
+  }
+
+  .statement__attribution {
+    font-family: var(--font-sans);
+    font-style: italic;
+    color: var(--color-muted);
+    font-size: 14px;
+    margin: 0 0 var(--space-4);
+  }
+
+  .statement__list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .scroll {
+    position: relative;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .scroll:last-child {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .scroll__bar {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    width: 100%;
+    background: linear-gradient(
+      90deg,
+      rgba(122, 100, 62, 0.22) 0%, rgba(157, 138, 99, 0.1) 5%, transparent 11%,
+      transparent 89%, rgba(157, 138, 99, 0.1) 95%, rgba(122, 100, 62, 0.22) 100%
+    );
+    border: none;
+    padding: var(--space-3);
+    font: inherit;
+    text-align: left;
+    color: inherit;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .scroll__bar:hover {
+    background: linear-gradient(
+      90deg,
+      rgba(157, 138, 99, 0.22) 0%, transparent 9%,
+      transparent 91%, rgba(157, 138, 99, 0.22) 100%
+    );
+  }
+
+  .scroll__seal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1.5px solid var(--color-navy);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.55), 0 0 0 4px rgba(49, 70, 96, 0.4);
+    font-family: var(--font-serif);
+    font-size: 13px;
+    color: var(--color-navy);
+    background: rgba(255, 255, 255, 0.85);
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  }
+
+  .scroll[data-collapsed='false'] .scroll__seal {
+    background: var(--color-navy);
+    color: var(--color-white);
+    transform: scale(1.08);
+  }
+
+  .scroll__title {
+    font-family: var(--font-serif);
+    font-size: 19px;
+    color: #3a3226;
+    transition: color 0.2s ease;
+  }
+
+  .scroll__bar:hover .scroll__title {
+    color: #241f16;
+  }
+
+  .scroll__panel {
+    position: relative;
+    display: grid;
+    grid-template-rows: 0fr;
+  }
+
+  .scroll[data-collapsed='false'] .scroll__panel {
+    grid-template-rows: 1fr;
+  }
+
+  .scroll[data-collapsed='false'] .scroll__panel-inner {
+    transform: scaleX(1);
+  }
+
+  .scroll__panel-inner {
+    --rule-margin: 64px;
+    position: relative;
+    overflow: hidden;
+    transform-origin: left;
+    transform: scaleX(0.03);
+    transition: transform 0.85s cubic-bezier(0.4, 0, 0.2, 1);
+    margin: 6px 0;
+    border-radius: 3px;
+    filter:
+      drop-shadow(0 10px 18px rgba(35, 26, 12, 0.22))
+      drop-shadow(0 1px 3px rgba(35, 26, 12, 0.2));
+    background:
+      linear-gradient(
+        90deg,
+        transparent calc(var(--rule-margin) - 1px),
+        rgba(150, 70, 60, 0.3) calc(var(--rule-margin) - 1px),
+        rgba(150, 70, 60, 0.3) var(--rule-margin),
+        transparent var(--rule-margin)
+      ),
+      repeating-linear-gradient(
+        to bottom,
+        transparent 0, transparent 29px,
+        rgba(90, 70, 40, 0.22) 29px, rgba(90, 70, 40, 0.22) 30px
+      ),
+      linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, transparent 35%),
+      radial-gradient(ellipse 220px 160px at 14% 16%, rgba(80, 60, 34, 0.08), transparent 60%),
+      radial-gradient(ellipse 260px 190px at 84% 30%, rgba(80, 60, 34, 0.06), transparent 60%),
+      radial-gradient(ellipse 280px 200px at 30% 90%, rgba(80, 60, 34, 0.07), transparent 60%),
+      radial-gradient(ellipse 240px 190px at 80% 92%, rgba(80, 60, 34, 0.06), transparent 60%),
+      #f2ecd9;
+    box-shadow: inset 0 0 40px rgba(55, 42, 22, 0.12), inset 0 0 1px rgba(55, 42, 22, 0.25);
+    border: 1px solid rgba(90, 70, 40, 0.18);
+  }
+
+  .scroll__panel-inner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 30%;
+    left: -30%;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.45) 50%, transparent 100%);
+    pointer-events: none;
+    transition: left 0.85s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .scroll[data-collapsed='false'] .scroll__panel-inner::after {
+    left: 100%;
+  }
+
+  .scroll__watermark {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 180px;
+    height: auto;
+    transform: translate(-50%, -50%);
+    opacity: 0.16;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
+
+  .scroll__text {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    font-family: var(--font-sans);
+    color: #3a3226;
+    font-size: 15.5px;
+    line-height: 1.7;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.35s ease 0.5s, transform 0.35s ease 0.5s;
+    padding: var(--space-4) var(--space-4) calc(var(--space-4) + 10px) calc(var(--rule-margin) + 22px);
+  }
+
+  .scroll[data-collapsed='false'] .scroll__text {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 760px) {
+    .scroll__panel-inner {
+      --rule-margin: 40px;
+    }
+
+    .scroll__text {
+      padding: var(--space-4) var(--space-3) calc(var(--space-4) + 10px) calc(var(--rule-margin) + 16px);
+    }
+  }
+
+  .scroll__text::first-letter {
+    float: left;
+    font-family: var(--font-serif);
+    font-size: 46px;
+    line-height: 0.8;
+    color: var(--color-navy);
+    padding: 4px 6px 0 0;
+  }
+
+  @media (max-width: 640px) {
+    .scroll__bar {
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-3);
+    }
+
+    .scroll__title {
+      font-size: 16px;
+    }
+
+    .scroll__panel-inner {
+      --rule-margin: 28px;
+    }
+
+    .scroll__text {
+      padding: var(--space-3) var(--space-2) calc(var(--space-3) + 8px) calc(var(--rule-margin) + 12px);
+    }
+  }
+
+  .values {
+    padding: 0 var(--space-3) var(--space-5);
+  }
+
+  .values__heading h2 {
+    font-size: clamp(28px, 4vw, 36px);
+    color: #000000;
+    margin-bottom: var(--space-3);
+  }
+
+  .values__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-4);
+  }
+
+  .values__card {
+    padding: var(--space-3) 0 0;
+    border-top: 1px solid var(--color-border);
+    transition: transform 0.25s ease;
+  }
+
+  .values__card:hover {
+    transform: translateY(-4px);
+  }
+
+  .values__number {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: 15px;
+    color: var(--color-navy);
+    opacity: 0.5;
+    margin-bottom: var(--space-1);
+  }
+
+  .values__card h3 {
+    position: relative;
+    display: inline-block;
+    font-size: 20px;
+    color: var(--color-navy);
+    margin-bottom: var(--space-1);
+  }
+
+  .values__card h3::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 1px;
+    background: var(--color-navy);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+
+  .values__card:hover h3::after {
+    transform: scaleX(1);
+  }
+
+  .values__card p {
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    font-size: 16px;
+    line-height: 1.72;
+    margin: 0;
+  }
+</style>
+
+<script>
+  const toggles = Array.from(document.querySelectorAll<HTMLButtonElement>('.scroll__bar'));
+
+  function close(toggle: HTMLButtonElement) {
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.closest<HTMLElement>('.scroll')?.setAttribute('data-collapsed', 'true');
+  }
+
+  function open(toggle: HTMLButtonElement) {
+    toggle.setAttribute('aria-expanded', 'true');
+    toggle.closest<HTMLElement>('.scroll')?.setAttribute('data-collapsed', 'false');
+  }
+
+  toggles.forEach((toggle) => {
+    toggle.addEventListener('click', () => {
+      const wasExpanded = toggle.getAttribute('aria-expanded') === 'true';
+      toggles.forEach((other) => { if (other !== toggle) close(other); });
+      wasExpanded ? close(toggle) : open(toggle);
+    });
+  });
+</script>

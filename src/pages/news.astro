@@ -15,28 +15,24 @@ const headerSlides = [
 // Placeholder items — swap in real news/announcements before launch.
 const items = [
   {
-    kicker: '1. CAMPUS NEWS',
     title: 'Campus News Headline Goes Here',
     body: 'Placeholder text for a campus news update. Replace this with a real announcement before this page goes live.',
     photo: grad2,
     photoAlt: 'ATS community gathered outdoors',
   },
   {
-    kicker: '2. UPCOMING EVENT',
     title: 'Upcoming Event Headline Goes Here',
     body: 'Placeholder text for an upcoming event. Replace this with real event details before this page goes live.',
     photo: grad1,
     photoAlt: 'ATS community gathered together',
   },
   {
-    kicker: '3. ANNOUNCEMENT',
     title: 'Announcement Headline Goes Here',
     body: 'Placeholder text for a general announcement. Replace this with a real announcement before this page goes live.',
     photo: grad4,
     photoAlt: 'Graduates at an Agricola Theological Seminary commencement ceremony, 27 May 2022',
   },
   {
-    kicker: '4. STUDENT LIFE',
     title: 'Student Life Headline Goes Here',
     body: 'Placeholder text for a student life story. Replace this with a real story before this page goes live.',
     photo: grad5,
@@ -56,7 +52,10 @@ const items = [
 
   <section class="news-zigzag max-width">
     {items.map((item, i) => (
-      <div class:list={['news-zigzag__item', { 'news-zigzag__item--reverse': i % 2 === 1 }]}>
+      <div
+        class:list={['news-zigzag__item', 'reveal', { 'news-zigzag__item--reverse': i % 2 === 1 }]}
+        style={`--i: ${i}`}
+      >
         <div class="news-zigzag__photo-wrap">
           <div class="news-zigzag__photo-bg" aria-hidden="true"></div>
           <div class="news-zigzag__photo">
@@ -64,7 +63,6 @@ const items = [
           </div>
         </div>
         <div class="news-zigzag__text">
-          <span class="news-zigzag__kicker">{item.kicker}</span>
           <h2>{item.title}</h2>
           <p>{item.body}</p>
           {/* TODO: point at the real article once individual news pages exist */}
@@ -142,17 +140,6 @@ const items = [
     transform: scale(1.04);
   }
 
-  .news-zigzag__kicker {
-    display: block;
-    font-family: var(--font-sans);
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--color-navy);
-    margin-bottom: var(--space-2);
-  }
-
   .news-zigzag__text h2 {
     font-family: var(--font-serif);
     font-size: clamp(28px, 3.6vw, 40px);
@@ -162,10 +149,10 @@ const items = [
   }
 
   .news-zigzag__text p {
-    font-family: 'Lora', var(--font-serif);
+    font-family: var(--font-sans);
     color: var(--color-ink);
-    font-size: 15px;
-    line-height: 1.65;
+    font-size: 16.5px;
+    line-height: 1.75;
     margin: 0 0 var(--space-3);
   }
 

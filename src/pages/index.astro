@@ -96,7 +96,6 @@ const spotlightData = testimonials.map((t, i) => ({
   title="Agricola Theological Seminary | Equipping the next generation of Bible teachers"
   description="Agricola Theological Seminary trains future pastors, teachers, and leaders to understand the Bible deeply and apply it faithfully in real ministry."
 >
-  <!-- videoId below is Carnegie Mellon's own commercial, used only as a demo placeholder. Swap for real ATS footage before this is ever shown outside this session. -->
   <Hero
     kicker="Join us!"
     headline={`Shaping <span class="hero__highlight">Servants</span> of the <span class="hero__highlight">Word</span> for the <span class="hero__highlight">Church</span> and the World.`}
@@ -106,15 +105,17 @@ const spotlightData = testimonials.map((t, i) => ({
     imageAlt="Agricola Theological Seminary graduates at their commencement ceremony"
     mobileImage={heroMobileImage}
     mobileImageAlt="A small group studying Scripture together"
-    videoId="qM43gnigKgQ"
+    videoSrc={`${base}/videos/video2.mp4`}
   />
 
   <section class="news">
-    <span class="news__kicker">News</span>
-    <h2>Latest News</h2>
+    <div class="news__heading reveal">
+      <span class="news__kicker">News</span>
+      <h2>Latest News</h2>
+    </div>
     <div class="news__grid">
       {news.map((item, i) => (
-        <a class="news__card" href={`${base}/news`}>
+        <a class="news__card reveal" style={`--i: ${i}`} href={`${base}/news`}>
           <span class="news__index">{String(i + 1).padStart(2, '0')}</span>
           <h3 class="news__title">{item.title}</h3>
           <p class="news__meta">{item.meta}</p>
@@ -128,27 +129,33 @@ const spotlightData = testimonials.map((t, i) => ({
   </section>
 
   <section class="programs max-width">
-    <span class="programs__kicker">Academic</span>
-    <h2>Our Degree Programs</h2>
+    <div class="programs__heading reveal">
+      <span class="programs__kicker">Academic</span>
+      <h2>Our Degree Programs</h2>
+    </div>
     <div class="programs__grid">
-      {programs.map((program) => (
-        <Card
-          title={program.title}
-          body={program.body}
-          level={program.level}
-          href={`${base}/programs`}
-          image={program.photo}
-          imageAlt={program.photoAlt}
-        />
+      {programs.map((program, i) => (
+        <div class="reveal" style={`--i: ${i}`}>
+          <Card
+            title={program.title}
+            body={program.body}
+            level={program.level}
+            href={`${base}/programs`}
+            image={program.photo}
+            imageAlt={program.photoAlt}
+          />
+        </div>
       ))}
     </div>
   </section>
 
   <section class="testimonials max-width">
-    <span class="testimonials__kicker">Testimonials</span>
-    <h2>What Our Community Says</h2>
+    <div class="testimonials__heading reveal">
+      <span class="testimonials__kicker">Testimonials</span>
+      <h2>What Our Community Says</h2>
+    </div>
 
-    <div class="testimonial-spotlight">
+    <div class="testimonial-spotlight reveal">
       <img
         class="testimonial-spotlight__photo"
         data-spotlight-photo
@@ -165,7 +172,7 @@ const spotlightData = testimonials.map((t, i) => ({
 
     <div class="testimonial-grid">
       {testimonials.map((t, i) => (
-        <figure class="testimonial-grid__card" data-index={i}>
+        <figure class="testimonial-grid__card reveal" style={`--i: ${i}`} data-index={i}>
           <span class="testimonial-grid__mark" aria-hidden="true">&ldquo;</span>
           <blockquote>
             <p class="testimonial-grid__quote">{t.quote}</p>
@@ -206,7 +213,7 @@ const spotlightData = testimonials.map((t, i) => ({
   </section>
 
   <section class="pull-quote max-width">
-    <a class="pull-quote__aside" href={`${base}/doctrine`}>
+    <a class="pull-quote__aside reveal" href={`${base}/doctrine`}>
       <Image class="pull-quote__photo" src={agricolaPortrait} alt="Portrait of Mikael Agricola by Albert Edelfelt" width={96} height={126} />
       <p class="pull-quote__aside-text">
         Mikael Agricola (c. 1510–1557) studied under Martin Luther in Wittenberg, then translated
@@ -215,7 +222,7 @@ const spotlightData = testimonials.map((t, i) => ({
       </p>
       <span class="pull-quote__aside-link">Read Our Doctrine</span>
     </a>
-    <div class="pull-quote__verse">
+    <div class="pull-quote__verse reveal" style="--i: 1">
       <blockquote>
         &ldquo;Let the word of Christ dwell in you richly, teaching and admonishing one another in
         all wisdom, singing psalms and hymns and spiritual songs, with thankfulness in your hearts
@@ -556,7 +563,7 @@ const spotlightData = testimonials.map((t, i) => ({
   }
 
   .testimonial-grid__quote {
-    font-family: 'Lora', var(--font-serif);
+    font-family: var(--font-sans);
     font-style: italic;
     font-size: 13.5px;
     line-height: 1.6;
