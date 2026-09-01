@@ -109,11 +109,21 @@ const Tag = href ? 'a' : 'div';
     overflow: hidden;
   }
 
+  .card__photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(var(--color-navy-rgb), 0.4);
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
+
   .card__image {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
+    filter: saturate(0.8);
   }
 
   .card__caption {
