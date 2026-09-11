@@ -1,9 +1,7 @@
 ---
-import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import faithPhoto from '../assets/images/about/values/faith.jpg';
-import crestMark from '../assets/images/crest-mark.png';
 
 const headerSlides = [
   { image: faithPhoto, alt: 'An open Bible' },
@@ -68,36 +66,55 @@ const values = [
   {
     title: 'Holy Scripture',
     body: 'The Bible is central to your studies at ATS because it is through God’s Word that we come to know God and understand how we are to live. You’ll gain the tools to humbly study Scripture well for your own spiritual formation and for the edification of the church.',
+    icon: 'book',
   },
   {
     title: 'Redemption History',
     body: 'God’s redemption of all creation happens in time, through history. Your learning at ATS will connect to that history of redemption, so that you and the churches you serve may marvel at God’s loving guidance of his people and his restoration of all things.',
+    icon: 'hourglass',
   },
   {
     title: 'Ecclesial Commitment',
     body: 'ATS exists to serve the church for the glory of God and all ATS activities are rooted in a commitment to encourage and strengthen the people of God.',
+    icon: 'church',
   },
   {
     title: 'Reformed Heritage',
     body: 'We are committed to the reformed heritage and theology that highlight the authority of God’s word and justification by faith alone by Christ alone for the glory of God.',
+    icon: 'shield',
   },
   {
     title: 'Learning Together',
     body: 'You will learn together in community with others who are seeking to deepen their understanding of God and his Word. You’ll have the opportunity to develop rich relationships through theological discussions, shared meals, times of reflection, and your shared ATS experience.',
+    icon: 'people',
   },
   {
     title: 'Spiritual Formation',
     body: 'ATS provides a rich context in which you can grow spiritually, deepening your relationship with God and his people. Your formation in Christ is a critical part of your academic development.',
+    icon: 'flame',
   },
   {
     title: 'Ministry Apprenticeship',
     body: 'Your theological studies will find practical expression in your service of a local church. This apprenticeship will allow you to root your learning in a variety of ministry contexts.',
+    icon: 'handshake',
   },
   {
     title: 'Faculty Mentorship',
     body: 'You will benefit from an ATS mentor who will be available to offer you guidance, counsel, and prayer. Your mentor will be one of your professors, so your mentorship will integrate seamlessly into your ATS experience.',
+    icon: 'compass',
   },
 ];
+
+const valueIcons: Record<string, string> = {
+  book: '<path d="M12 6.2c-1.6-1.3-3.7-1.9-5.7-1.9-1 0-1.9.13-2.5.35v13.2c.6-.22 1.5-.35 2.5-.35 2 0 4.1.6 5.7 1.9m0-13.2c1.6-1.3 3.7-1.9 5.7-1.9 1 0 1.9.13 2.5.35v13.2c-.6-.22-1.5-.35-2.5-.35-2 0-4.1.6-5.7 1.9m0-13.2v13.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>',
+  hourglass: '<path d="M6.5 3h11M6.5 21h11M7.5 3c0 4.2 3 6.3 4.5 8-1.5 1.7-4.5 3.8-4.5 8M16.5 3c0 4.2-3 6.3-4.5 8 1.5 1.7 4.5 3.8 4.5 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>',
+  church: '<path d="M12 2.5v2.7M10.6 3.85h2.8M4.5 21V11.2L12 5.8l7.5 5.4V21M4.5 21h15M9.8 21v-6.2h4.4V21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>',
+  shield: '<path d="M12 2.5l6.5 2.7v5.6c0 4.7-2.7 7.9-6.5 10.2-3.8-2.3-6.5-5.5-6.5-10.2V5.2L12 2.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M12 8.3v6.2M8.9 11.4h6.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>',
+  people: '<circle cx="8.7" cy="8.2" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M3 19.5c0-3.3 2.5-5.8 5.7-5.8s5.7 2.5 5.7 5.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/><circle cx="16.3" cy="9" r="2.3" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M14.8 19.5c.1-2.7 1.9-4.9 4.3-5.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/>',
+  flame: '<path d="M12 3.2c1.1 2.7-1.6 4-1.6 6.9a3.6 3.6 0 007.2 0c0-1.4-.7-2.3-.9-2.6.2 1.8-.7 2.7-1.5 2.7-.9 0-1.4-.9-1-1.7.9-1.7-.4-3.7-2.2-5.3z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M9.3 12.8c-1 1.1-1.6 2.4-1.6 3.9a4.3 4.3 0 008.6 0c0-.6-.07-1.15-.2-1.7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/>',
+  handshake: '<path d="M2.5 12.3l3.8-3.6 3 2.6M21.5 12.3l-3.8-3.6-3 2.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M9.3 11.3l2.2 2c.5.45 1.3.45 1.8 0l2.2-2M6.3 8.7L4 10.9M17.7 8.7L20 10.9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M9.3 11.3l-2.4 2.3a1.35 1.35 0 001.9 1.9l1-1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>',
+  compass: '<circle cx="12" cy="12" r="8.7" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M14.8 9.2l-1.7 4.9-4.9 1.7 1.7-4.9 4.9-1.7z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" fill="none"/>',
+};
 ---
 <Layout
   title="Doctrine | Agricola Theological Seminary"
@@ -124,12 +141,14 @@ const values = [
             aria-expanded="false"
             aria-controls={`scroll-panel-${i}`}
           >
-            <span class="scroll__seal" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <span class="scroll__number" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
             <span class="scroll__title">{article.title}</span>
+            <svg class="scroll__chevron" width="14" height="9" viewBox="0 0 14 9" fill="none" aria-hidden="true">
+              <path d="M1 1.5L7 7.5L13 1.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
           </button>
           <div class="scroll__panel" id={`scroll-panel-${i}`}>
             <div class="scroll__panel-inner">
-              <Image class="scroll__watermark" src={crestMark} alt="" aria-hidden="true" width={220} height={240} />
               <p class="scroll__text">{article.body}</p>
             </div>
           </div>
@@ -146,6 +165,7 @@ const values = [
     <div class="values__grid">
       {values.map((value, i) => (
         <div class="values__card reveal" style={`--i: ${i % 4}`}>
+          <svg class="values__icon" width="30" height="30" viewBox="0 0 24 24" aria-hidden="true" set:html={valueIcons[value.icon]} />
           <span class="values__number">{String(i + 1).padStart(2, '0')}</span>
           <h3>{value.title}</h3>
           <p>{value.body}</p>
@@ -177,8 +197,8 @@ const values = [
   }
 
   .statement__attribution {
-    font-family: var(--font-sans);
-    font-style: italic;
+    font-family: 'EB Garamond', var(--font-serif);
+    font-style: normal;
     color: var(--color-muted);
     font-size: 14px;
     margin: 0 0 var(--space-4);
@@ -205,11 +225,7 @@ const values = [
     align-items: center;
     gap: var(--space-3);
     width: 100%;
-    background: linear-gradient(
-      90deg,
-      rgba(122, 100, 62, 0.22) 0%, rgba(157, 138, 99, 0.1) 5%, transparent 11%,
-      transparent 89%, rgba(157, 138, 99, 0.1) 95%, rgba(122, 100, 62, 0.22) 100%
-    );
+    background: none;
     border: none;
     padding: var(--space-3);
     font: inherit;
@@ -220,160 +236,59 @@ const values = [
   }
 
   .scroll__bar:hover {
-    background: linear-gradient(
-      90deg,
-      rgba(157, 138, 99, 0.22) 0%, transparent 9%,
-      transparent 91%, rgba(157, 138, 99, 0.22) 100%
-    );
+    background: rgba(var(--color-navy-rgb), 0.04);
   }
 
-  .scroll__seal {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .scroll__number {
     flex-shrink: 0;
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    border: 1.5px solid var(--color-navy);
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.55), 0 0 0 4px rgba(49, 70, 96, 0.4);
     font-family: var(--font-serif);
-    font-size: 13px;
+    font-size: 15px;
     color: var(--color-navy);
-    background: rgba(255, 255, 255, 0.85);
-    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
-  }
-
-  .scroll[data-collapsed='false'] .scroll__seal {
-    background: var(--color-navy);
-    color: var(--color-white);
-    transform: scale(1.08);
+    opacity: 0.5;
   }
 
   .scroll__title {
+    flex: 1;
     font-family: var(--font-serif);
     font-size: 19px;
-    color: #3a3226;
+    color: var(--color-navy);
     transition: color 0.2s ease;
   }
 
-  .scroll__bar:hover .scroll__title {
-    color: #241f16;
+  .scroll__chevron {
+    flex-shrink: 0;
+    color: var(--color-navy);
+    opacity: 0.6;
+    transition: transform 0.25s ease;
+  }
+
+  .scroll[data-collapsed='false'] .scroll__chevron {
+    transform: rotate(180deg);
   }
 
   .scroll__panel {
-    position: relative;
     display: grid;
     grid-template-rows: 0fr;
+    transition: grid-template-rows 0.25s ease;
   }
 
   .scroll[data-collapsed='false'] .scroll__panel {
     grid-template-rows: 1fr;
   }
 
-  .scroll[data-collapsed='false'] .scroll__panel-inner {
-    transform: scaleX(1);
-  }
-
   .scroll__panel-inner {
-    --rule-margin: 64px;
-    position: relative;
     overflow: hidden;
-    transform-origin: left;
-    transform: scaleX(0.03);
-    transition: transform 0.85s cubic-bezier(0.4, 0, 0.2, 1);
-    margin: 6px 0;
-    border-radius: 3px;
-    filter:
-      drop-shadow(0 10px 18px rgba(35, 26, 12, 0.22))
-      drop-shadow(0 1px 3px rgba(35, 26, 12, 0.2));
-    background:
-      linear-gradient(
-        90deg,
-        transparent calc(var(--rule-margin) - 1px),
-        rgba(150, 70, 60, 0.3) calc(var(--rule-margin) - 1px),
-        rgba(150, 70, 60, 0.3) var(--rule-margin),
-        transparent var(--rule-margin)
-      ),
-      repeating-linear-gradient(
-        to bottom,
-        transparent 0, transparent 29px,
-        rgba(90, 70, 40, 0.22) 29px, rgba(90, 70, 40, 0.22) 30px
-      ),
-      linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, transparent 35%),
-      radial-gradient(ellipse 220px 160px at 14% 16%, rgba(80, 60, 34, 0.08), transparent 60%),
-      radial-gradient(ellipse 260px 190px at 84% 30%, rgba(80, 60, 34, 0.06), transparent 60%),
-      radial-gradient(ellipse 280px 200px at 30% 90%, rgba(80, 60, 34, 0.07), transparent 60%),
-      radial-gradient(ellipse 240px 190px at 80% 92%, rgba(80, 60, 34, 0.06), transparent 60%),
-      #f2ecd9;
-    box-shadow: inset 0 0 40px rgba(55, 42, 22, 0.12), inset 0 0 1px rgba(55, 42, 22, 0.25);
-    border: 1px solid rgba(90, 70, 40, 0.18);
-  }
-
-  .scroll__panel-inner::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 30%;
-    left: -30%;
-    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.45) 50%, transparent 100%);
-    pointer-events: none;
-    transition: left 0.85s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .scroll[data-collapsed='false'] .scroll__panel-inner::after {
-    left: 100%;
-  }
-
-  .scroll__watermark {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 180px;
-    height: auto;
-    transform: translate(-50%, -50%);
-    opacity: 0.16;
-    mix-blend-mode: multiply;
-    pointer-events: none;
+    border-left: 2px solid var(--color-navy);
+    margin: 0 var(--space-3) var(--space-2) calc(15px + var(--space-3));
   }
 
   .scroll__text {
-    position: relative;
-    z-index: 1;
-    max-width: 720px;
-    font-family: var(--font-sans);
-    color: #3a3226;
-    font-size: 15.5px;
-    line-height: 1.7;
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: opacity 0.35s ease 0.5s, transform 0.35s ease 0.5s;
-    padding: var(--space-4) var(--space-4) calc(var(--space-4) + 10px) calc(var(--rule-margin) + 22px);
-  }
-
-  .scroll[data-collapsed='false'] .scroll__text {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  @media (max-width: 760px) {
-    .scroll__panel-inner {
-      --rule-margin: 40px;
-    }
-
-    .scroll__text {
-      padding: var(--space-4) var(--space-3) calc(var(--space-4) + 10px) calc(var(--rule-margin) + 16px);
-    }
-  }
-
-  .scroll__text::first-letter {
-    float: left;
-    font-family: var(--font-serif);
-    font-size: 46px;
-    line-height: 0.8;
-    color: var(--color-navy);
-    padding: 4px 6px 0 0;
+    font-family: 'EB Garamond', var(--font-serif);
+    color: var(--color-ink);
+    font-size: 18px;
+    line-height: 1.72;
+    margin: 0;
+    padding: 0 var(--space-3) var(--space-3) var(--space-3);
   }
 
   @media (max-width: 640px) {
@@ -387,11 +302,7 @@ const values = [
     }
 
     .scroll__panel-inner {
-      --rule-margin: 28px;
-    }
-
-    .scroll__text {
-      padding: var(--space-3) var(--space-2) calc(var(--space-3) + 8px) calc(var(--rule-margin) + 12px);
+      margin-left: calc(15px + var(--space-2));
     }
   }
 
@@ -412,13 +323,22 @@ const values = [
   }
 
   .values__card {
-    padding: var(--space-3) 0 0;
-    border-top: 1px solid var(--color-border);
-    transition: transform 0.25s ease;
+    padding: var(--space-3);
+    background: rgba(var(--color-navy-rgb), 0.04);
+    border-left: 2px solid transparent;
+    transition: transform 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
   }
 
   .values__card:hover {
     transform: translateY(-4px);
+    background: rgba(var(--color-navy-rgb), 0.07);
+    border-left-color: var(--color-navy);
+  }
+
+  .values__icon {
+    display: block;
+    color: var(--color-navy);
+    margin-bottom: var(--space-2);
   }
 
   .values__number {
@@ -431,34 +351,16 @@ const values = [
   }
 
   .values__card h3 {
-    position: relative;
-    display: inline-block;
+    font-family: 'EB Garamond', var(--font-serif);
     font-size: 20px;
     color: var(--color-navy);
     margin-bottom: var(--space-1);
   }
 
-  .values__card h3::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: -2px;
-    width: 100%;
-    height: 1px;
-    background: var(--color-navy);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.3s ease;
-  }
-
-  .values__card:hover h3::after {
-    transform: scaleX(1);
-  }
-
   .values__card p {
-    font-family: var(--font-sans);
+    font-family: 'EB Garamond', var(--font-serif);
     color: var(--color-ink);
-    font-size: 16px;
+    font-size: 18px;
     line-height: 1.72;
     margin: 0;
   }
