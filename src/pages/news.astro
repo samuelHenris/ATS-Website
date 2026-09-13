@@ -7,10 +7,23 @@ import grad2 from '../assets/images/about/carousel/graduation-2.jpg';
 import grad3 from '../assets/images/about/carousel/graduation-3.jpg';
 import grad4 from '../assets/images/about/carousel/graduation-4.jpg';
 import grad5 from '../assets/images/about/carousel/graduation-5.jpg';
+import faithPhoto from '../assets/images/about/values/faith.jpg';
+import historyPhoto from '../assets/images/about/values/history.jpg';
 
 const headerSlides = [
   { image: grad3, alt: 'Graduates on stage at an Agricola Theological Seminary commencement ceremony' },
 ];
+
+const reels = [
+  { url: 'https://www.facebook.com/reel/2236902420151189' },
+  { url: 'https://www.facebook.com/reel/1312451249873103' },
+];
+
+const reelsPeekLeft = faithPhoto.src;
+const reelsPeekRight = historyPhoto.src;
+
+const fbEmbedSrc = (url: string) =>
+  `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&show_text=false&width=300&t=0`;
 
 // Placeholder items — swap in real news/announcements before launch.
 const items = [
@@ -37,8 +50,11 @@ const items = [
     body: 'Placeholder text for a student life story. Replace this with a real story before this page goes live.',
     photo: grad5,
     photoAlt: 'Graduates holding certificates in front of the Agricola Theological Seminary crest',
+    video: reels,
   },
 ];
+
+const cameraIcon = '<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/>';
 ---
 <Layout
   title="News | Agricola Theological Seminary"
@@ -56,12 +72,46 @@ const items = [
         class:list={['news-zigzag__item', 'reveal', { 'news-zigzag__item--reverse': i % 2 === 1 }]}
         style={`--i: ${i}`}
       >
-        <div class="news-zigzag__photo-wrap">
-          <div class="news-zigzag__photo-bg" aria-hidden="true"></div>
-          <div class="news-zigzag__photo">
-            <Image src={item.photo} alt={item.photoAlt} width={700} height={520} />
+        {item.video ? (
+          <div class="news-zigzag__photo-wrap news-zigzag__photo-wrap--reels">
+            <button type="button" class="reels-stack reels-stack--prev" aria-label="Show previous video">
+              <img class="reels-stack__thumb" src={reelsPeekLeft} alt="" />
+              <span class="reels-stack__play" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>
+              </span>
+              <span class="reels-stack__label">Previous</span>
+            </button>
+            <button type="button" class="reels-stack reels-stack--next" aria-label="Show next video">
+              <img class="reels-stack__thumb" src={reelsPeekRight} alt="" />
+              <span class="reels-stack__play" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>
+              </span>
+              <span class="reels-stack__label">Up Next</span>
+            </button>
+            <div class="reels-card" data-reels={JSON.stringify(item.video)} data-reel-index="0">
+              <div class="reels-card__top">
+                <span set:html={`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${cameraIcon}</svg>`} />
+                <span>Reels</span>
+              </div>
+
+              <iframe
+                class="reels-card__frame"
+                src={fbEmbedSrc(item.video[0].url)}
+                title="Facebook video"
+                loading="lazy"
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                allowfullscreen
+              ></iframe>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div class="news-zigzag__photo-wrap">
+            <div class="news-zigzag__photo-bg" aria-hidden="true"></div>
+            <div class="news-zigzag__photo">
+              <Image src={item.photo} alt={item.photoAlt} width={700} height={520} />
+            </div>
+          </div>
+        )}
         <div class="news-zigzag__text">
           <h2>{item.title}</h2>
           <p>{item.body}</p>
@@ -72,6 +122,94 @@ const items = [
     ))}
   </section>
 </Layout>
+
+<script>
+  interface Reel {
+    url: string;
+  }
+
+  const fbEmbedSrc = (url: string) =>
+    `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&show_text=false&width=300&t=0`;
+
+  document.querySelectorAll<HTMLElement>('.news-zigzag__photo-wrap--reels').forEach((wrap) => {
+    const card = wrap.querySelector<HTMLElement>('.reels-card');
+    const prevBtn = wrap.querySelector<HTMLButtonElement>('.reels-stack--prev');
+    const nextBtn = wrap.querySelector<HTMLButtonElement>('.reels-stack--next');
+    const frame = card?.querySelector<HTMLIFrameElement>('.reels-card__frame');
+    if (!card || !prevBtn || !nextBtn || !frame) return;
+
+    const reelsData: Reel[] = JSON.parse(card.dataset.reels || '[]');
+    if (reelsData.length < 2) {
+      prevBtn.style.display = 'none';
+      nextBtn.style.display = 'none';
+      return;
+    }
+
+    const goTo = (targetIndex: number) => {
+      const swapOut = card.animate(
+        [{ opacity: 1 }, { opacity: 0 }],
+        { duration: 200, easing: 'ease', fill: 'forwards' },
+      );
+
+      swapOut.addEventListener('finish', () => {
+        frame.src = fbEmbedSrc(reelsData[targetIndex].url);
+        card.dataset.reelIndex = String(targetIndex);
+
+        card.animate(
+          [{ opacity: 0 }, { opacity: 1 }],
+          { duration: 250, easing: 'ease', fill: 'forwards' },
+        );
+      });
+    };
+
+    nextBtn.addEventListener('click', () => {
+      const currentIndex = Number(card.dataset.reelIndex || '0');
+      goTo((currentIndex + 1) % reelsData.length);
+    });
+
+    prevBtn.addEventListener('click', () => {
+      const currentIndex = Number(card.dataset.reelIndex || '0');
+      goTo((currentIndex - 1 + reelsData.length) % reelsData.length);
+    });
+
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchActive = false;
+
+    wrap.addEventListener(
+      'touchstart',
+      (event) => {
+        if (event.touches.length !== 1) return;
+        touchStartX = event.touches[0].clientX;
+        touchStartY = event.touches[0].clientY;
+        touchActive = true;
+      },
+      { passive: true },
+    );
+
+    wrap.addEventListener(
+      'touchend',
+      (event) => {
+        if (!touchActive) return;
+        touchActive = false;
+
+        const touch = event.changedTouches[0];
+        const deltaX = touch.clientX - touchStartX;
+        const deltaY = touch.clientY - touchStartY;
+
+        if (Math.abs(deltaX) < 40 || Math.abs(deltaX) < Math.abs(deltaY)) return;
+
+        const currentIndex = Number(card.dataset.reelIndex || '0');
+        const targetIndex =
+          deltaX < 0
+            ? (currentIndex + 1) % reelsData.length
+            : (currentIndex - 1 + reelsData.length) % reelsData.length;
+        goTo(targetIndex);
+      },
+      { passive: true },
+    );
+  });
+</script>
 
 <style>
   .news-zigzag {
@@ -138,6 +276,165 @@ const items = [
 
   .news-zigzag__photo-wrap:hover .news-zigzag__photo img {
     transform: scale(1.04);
+  }
+
+  .news-zigzag__photo-wrap--reels {
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+
+  .reels-stack {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    width: 100%;
+    max-width: 300px;
+    aspect-ratio: 9 / 16;
+    border-radius: 14px;
+    overflow: hidden;
+    background: linear-gradient(150deg, rgba(var(--color-navy-rgb), 0.1), rgba(var(--color-navy-rgb), 0.02) 65%);
+    border: 1px solid rgba(var(--color-navy-rgb), 0.1);
+    box-shadow: 0 16px 32px rgba(var(--color-navy-rgb), 0.1);
+    padding: 0;
+    z-index: 0;
+    cursor: pointer;
+    font: inherit;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .reels-stack--next {
+    transform: translateX(calc(-50% + 40px)) scale(0.93) rotate(10deg);
+  }
+
+  .reels-stack--next:hover {
+    transform: translateX(calc(-50% + 44px)) scale(0.93) rotate(10deg);
+    box-shadow: 0 20px 38px rgba(var(--color-navy-rgb), 0.14);
+  }
+
+  .reels-stack--prev {
+    transform: translateX(calc(-50% - 40px)) scale(0.93) rotate(-10deg);
+  }
+
+  .reels-stack--prev:hover {
+    transform: translateX(calc(-50% - 44px)) scale(0.93) rotate(-10deg);
+    box-shadow: 0 20px 38px rgba(var(--color-navy-rgb), 0.14);
+  }
+
+  .reels-stack--prev .reels-stack__label {
+    left: auto;
+    right: 14px;
+  }
+
+  .reels-stack__thumb {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.75) saturate(0.9);
+  }
+
+  .reels-stack::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent 55%);
+  }
+
+  .reels-stack__play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1.5px solid rgba(255, 255, 255, 0.8);
+    color: var(--color-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .reels-stack__play svg {
+    width: 13px;
+    height: 13px;
+    margin-left: 2px;
+  }
+
+  .reels-stack__label {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 1;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(var(--color-navy-rgb), 0.55);
+  }
+
+  .reels-card {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 300px;
+    aspect-ratio: 9 / 16;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #000;
+    box-shadow: 0 24px 50px rgba(0, 0, 0, 0.28);
+  }
+
+  .reels-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.45), transparent);
+  }
+
+  .reels-card__frame {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .reels-card__top {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    right: 14px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--color-white);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .reels-card__top span:first-child {
+    display: inline-flex;
+    width: 17px;
+    height: 17px;
+  }
+
+  .reels-card__top span:first-child svg {
+    width: 100%;
+    height: 100%;
   }
 
   .news-zigzag__text h2 {

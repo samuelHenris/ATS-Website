@@ -11,12 +11,39 @@ const links = [
 ];
 
 const academicLinks = [
-  { label: 'Admissions', href: `${base}/admissions` },
-  { label: 'Programs', href: `${base}/programs` },
-  { label: 'Leadership', href: `${base}/leadership` },
-  { label: 'Accredited Partners', href: `${base}/accredited-partners` },
-  { label: 'Public Lectures', href: `${base}/public-lectures` },
+  {
+    label: 'Admissions',
+    href: `${base}/admissions`,
+    description: 'How to apply',
+    icon: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>',
+  },
+  {
+    label: 'Programs',
+    href: `${base}/programs`,
+    description: 'Degrees & courses',
+    icon: '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+  },
+  {
+    label: 'Leadership',
+    href: `${base}/leadership`,
+    description: 'Meet our faculty',
+    icon: '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+  },
+  {
+    label: 'Accredited Partners',
+    href: `${base}/accredited-partners`,
+    description: 'Our affiliations',
+    icon: '<circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>',
+  },
+  {
+    label: 'Public Lectures',
+    href: `${base}/public-lectures`,
+    description: 'Community events',
+    icon: '<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',
+  },
 ];
+
+const isActive = (href: string) => Astro.url.pathname === href || Astro.url.pathname === `${href}/`;
 ---
 <nav class="nav">
   <a class="nav__logo" href={`${base}/`}>
@@ -41,7 +68,15 @@ const academicLinks = [
         <summary>Academic</summary>
         <ul class="nav__dropdown-menu">
           {academicLinks.map((link) => (
-            <li><a href={link.href}>{link.label}</a></li>
+            <li>
+              <a href={link.href} class:list={{ 'is-active': isActive(link.href) }}>
+                <span class="nav__dropdown-icon" set:html={`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${link.icon}</svg>`} />
+                <span class="nav__dropdown-text">
+                  <span class="nav__dropdown-label">{link.label}</span>
+                  <span class="nav__dropdown-desc">{link.description}</span>
+                </span>
+              </a>
+            </li>
           ))}
         </ul>
       </details>
@@ -59,6 +94,96 @@ const academicLinks = [
     };
     updateScrolled();
     window.addEventListener('scroll', updateScrolled, { passive: true });
+  }
+
+  const dropdownItem = document.querySelector<HTMLElement>('.nav__dropdown');
+  const dropdown = dropdownItem?.querySelector('details');
+  const summary = dropdown?.querySelector('summary');
+  const menu = dropdown?.querySelector<HTMLElement>('.nav__dropdown-menu');
+  const desktop = window.matchMedia('(min-width: 861px)');
+  let closeTimer: ReturnType<typeof setTimeout>;
+
+  if (dropdownItem && dropdown && summary && menu) {
+    const items = Array.from(menu.querySelectorAll<HTMLElement>('li'));
+    let menuAnim: Animation | undefined;
+    let itemAnims: Animation[] = [];
+
+    const cancelAnims = () => {
+      menuAnim?.cancel();
+      itemAnims.forEach((a) => a.cancel());
+    };
+
+    const animateOpen = () => {
+      cancelAnims();
+      menuAnim = menu.animate(
+        [
+          { opacity: 0, transform: 'translateY(-8px) scale(0.98)' },
+          { opacity: 1, transform: 'translateY(0) scale(1)' },
+        ],
+        { duration: 220, easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fill: 'both' },
+      );
+      itemAnims = items.map((item, i) =>
+        item.animate(
+          [
+            { opacity: 0, transform: 'translateX(-6px)' },
+            { opacity: 1, transform: 'translateX(0)' },
+          ],
+          { duration: 180, delay: i * 30, easing: 'ease-out', fill: 'both' },
+        ),
+      );
+    };
+
+    const animateClose = (onDone: () => void) => {
+      cancelAnims();
+      menuAnim = menu.animate(
+        [
+          { opacity: 1, transform: 'translateY(0) scale(1)' },
+          { opacity: 0, transform: 'translateY(-6px) scale(0.98)' },
+        ],
+        { duration: 150, easing: 'ease-in', fill: 'both' },
+      );
+      menuAnim.onfinish = onDone;
+      menuAnim.oncancel = onDone;
+    };
+
+    const openMenu = () => {
+      clearTimeout(closeTimer);
+      if (!desktop.matches) return;
+      if (dropdown.hasAttribute('open')) {
+        cancelAnims();
+        return;
+      }
+      dropdown.setAttribute('open', '');
+      requestAnimationFrame(animateOpen);
+    };
+    const closeMenu = () => {
+      if (!dropdown.hasAttribute('open')) return;
+      animateClose(() => dropdown.removeAttribute('open'));
+    };
+    const scheduleClose = () => {
+      if (!desktop.matches) return;
+      closeTimer = setTimeout(closeMenu, 150);
+    };
+
+    dropdownItem.addEventListener('mouseenter', openMenu);
+    dropdownItem.addEventListener('mouseleave', scheduleClose);
+    dropdownItem.addEventListener('focusin', openMenu);
+    dropdownItem.addEventListener('focusout', (event: FocusEvent) => {
+      if (!dropdownItem.contains(event.relatedTarget as Node)) scheduleClose();
+    });
+
+    summary.addEventListener('click', (event) => {
+      if (!desktop.matches) return;
+      event.preventDefault();
+      dropdown.hasAttribute('open') ? closeMenu() : openMenu();
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && dropdown.hasAttribute('open')) {
+        closeMenu();
+        summary.focus();
+      }
+    });
   }
 </script>
 
@@ -113,6 +238,10 @@ const academicLinks = [
     color: var(--color-navy);
   }
 
+  .nav__dropdown {
+    position: relative;
+  }
+
   .nav__dropdown details > summary {
     cursor: pointer;
     list-style: none;
@@ -121,6 +250,11 @@ const academicLinks = [
     font-size: 12px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+    transition: opacity 0.15s ease;
+  }
+
+  .nav__dropdown details > summary:hover {
+    opacity: 0.75;
   }
 
   .nav__dropdown details > summary::-webkit-details-marker {
@@ -133,21 +267,82 @@ const academicLinks = [
 
   .nav__dropdown-menu {
     position: absolute;
+    left: 0;
     list-style: none;
     background: var(--color-white);
-    padding: var(--space-1);
-    margin-top: var(--space-1);
-    min-width: 180px;
+    padding: var(--space-1) 0;
+    margin-top: var(--space-2);
+    min-width: 240px;
+    border-radius: 2px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16);
+  }
+
+  .nav__dropdown-menu li + li {
+    border-top: 1px solid var(--color-border);
   }
 
   .nav__dropdown-menu a {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    color: var(--color-ink);
+    padding: 11px 20px;
+    border-left: 2px solid transparent;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .nav__dropdown-menu a:hover,
+  .nav__dropdown-menu a:focus-visible {
+    background: rgba(var(--color-navy-rgb), 0.06);
+    border-left-color: var(--color-navy);
+  }
+
+  .nav__dropdown-menu a.is-active {
+    background: rgba(var(--color-navy-rgb), 0.05);
+    border-left-color: var(--color-navy);
+  }
+
+  .nav__dropdown-icon {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    margin-top: 1px;
+    color: var(--color-muted);
+    transition: color 0.15s ease;
+  }
+
+  .nav__dropdown-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .nav__dropdown-menu a:hover .nav__dropdown-icon,
+  .nav__dropdown-menu a:focus-visible .nav__dropdown-icon,
+  .nav__dropdown-menu a.is-active .nav__dropdown-icon {
     color: var(--color-navy);
-    display: block;
-    padding: var(--space-1);
-    font-family: var(--font-sans);
-    font-size: 12px;
-    text-transform: none;
+  }
+
+  .nav__dropdown-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .nav__dropdown-label {
+    font-family: var(--font-serif);
+    font-size: 14px;
+    line-height: 1.2;
     letter-spacing: normal;
+    text-transform: none;
+  }
+
+  .nav__dropdown-desc {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    line-height: 1.3;
+    color: var(--color-muted);
+    letter-spacing: normal;
+    text-transform: none;
   }
 
   .nav__hamburger {
@@ -197,13 +392,43 @@ const academicLinks = [
 
     .nav__dropdown-menu {
       position: static;
+      display: block;
       background: none;
       padding: 0 0 var(--space-1) var(--space-2);
       margin-top: 0;
+      min-width: 0;
+      box-shadow: none;
+      animation: none;
+    }
+
+    .nav__dropdown-menu li + li {
+      border-top: none;
     }
 
     .nav__dropdown-menu a {
       color: var(--color-white);
+      padding: 10px 0 10px 10px;
+    }
+
+    .nav__dropdown-menu a:hover,
+    .nav__dropdown-menu a:focus-visible,
+    .nav__dropdown-menu a.is-active {
+      background: none;
+      border-left-color: var(--color-white);
+    }
+
+    .nav__dropdown-icon {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .nav__dropdown-menu a:hover .nav__dropdown-icon,
+    .nav__dropdown-menu a:focus-visible .nav__dropdown-icon,
+    .nav__dropdown-menu a.is-active .nav__dropdown-icon {
+      color: var(--color-white);
+    }
+
+    .nav__dropdown-desc {
+      color: rgba(255, 255, 255, 0.6);
     }
   }
 </style>

@@ -1,0 +1,550 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import graduationPhoto from '../assets/images/about/carousel/graduation-2.jpg';
+
+const headerSlides = [
+  { image: graduationPhoto, alt: 'ATS community gathered outdoors' },
+];
+
+const personIcon = '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.5 3.8-7 8-7s8 2.5 8 7"/>';
+const envelopeIcon = '<path d="M3 6l9 6 9-6M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/>';
+const editIcon = '<path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>';
+const messageIcon = '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>';
+
+const fields: { id: string; name: string; label: string; type: 'text' | 'email'; autocomplete: string; icon: string }[] = [
+  { id: 'first-name', name: 'firstName', label: 'First Name', type: 'text', autocomplete: 'given-name', icon: personIcon },
+  { id: 'last-name', name: 'lastName', label: 'Last Name', type: 'text', autocomplete: 'family-name', icon: personIcon },
+];
+---
+<Layout
+  title="Contact | Agricola Theological Seminary"
+  description="Questions about admissions, programs, or anything else? Reach out to Agricola Theological Seminary — we'd love to hear from you."
+>
+  <PageHeader
+    title="Contact Us"
+    description="Questions about admissions, programs, or anything else? We'd love to hear from you."
+    slides={headerSlides}
+  />
+
+  <section class="contact-band">
+    <div class="contact-float contact-float--1" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3 6l9 6 9-6M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg>
+    </div>
+    <div class="contact-float contact-float--2" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 2v20M6 8l6-6 6 6M6 16c0 3 3 6 6 6s6-3 6-6"/></svg>
+    </div>
+    <div class="contact-float contact-float--3" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+    </div>
+
+    <div class="contact max-width reveal">
+      <div class="contact__intro">
+        <h2>Get in Touch</h2>
+        <p>Fill out the form below and our team will get back to you as soon as possible.</p>
+      </div>
+
+      <form class="contact__form" id="contact-form" novalidate>
+        <div class="contact__fields">
+          <div class="contact__row">
+            {fields.map((field, i) => (
+              <div class="field reveal" style={`--i: ${i};`}>
+                <input
+                  type={field.type}
+                  id={field.id}
+                  name={field.name}
+                  autocomplete={field.autocomplete}
+                  placeholder=" "
+                  required
+                />
+                <label for={field.id}>{field.label}</label>
+                <span class="field__icon" set:html={`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${field.icon}</svg>`} />
+                <span class="field__underline"></span>
+              </div>
+            ))}
+          </div>
+
+          <div class="field reveal" style="--i: 2;">
+            <input type="email" id="email" name="email" autocomplete="email" placeholder=" " required />
+            <label for="email">Email</label>
+            <span class="field__icon" set:html={`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${envelopeIcon}</svg>`} />
+            <span class="field__underline"></span>
+          </div>
+
+          <div class="field reveal" style="--i: 3;">
+            <input type="text" id="subject" name="subject" placeholder=" " required />
+            <label for="subject">Subject</label>
+            <span class="field__icon" set:html={`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${editIcon}</svg>`} />
+            <span class="field__underline"></span>
+          </div>
+
+          <div class="field field--message reveal" style="--i: 4;">
+            <textarea id="message" name="message" rows="5" placeholder=" " required></textarea>
+            <label for="message">Message</label>
+            <span class="field__icon" set:html={`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${messageIcon}</svg>`} />
+            <span class="field__underline"></span>
+          </div>
+
+          <button type="submit" class="contact__submit" id="contact-submit">
+            <span class="contact__submit-label">Send Message</span>
+            <span class="contact__submit-spinner" aria-hidden="true"></span>
+            <svg class="contact__submit-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </button>
+        </div>
+
+        <div class="contact__success" role="status" aria-live="polite">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="8 12.5 11 15.5 16 9"></polyline>
+          </svg>
+          <h3>Message sent</h3>
+          <p>Thank you for reaching out — our team will be in touch soon.</p>
+        </div>
+      </form>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('#contact-form');
+  if (form) {
+    const submitBtn = form.querySelector<HTMLButtonElement>('#contact-submit');
+    const fieldsWrap = form.querySelector<HTMLElement>('.contact__fields');
+    const successPanel = form.querySelector<HTMLElement>('.contact__success');
+    const fields = Array.from(form.querySelectorAll<HTMLElement>('.field'));
+
+    fields.forEach((field) => {
+      const control = field.querySelector<HTMLInputElement | HTMLTextAreaElement>('input, textarea');
+      const underline = field.querySelector<HTMLElement>('.field__underline');
+      if (!control || !underline) return;
+
+      control.addEventListener('focus', () => {
+        underline.animate(
+          [{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }],
+          { duration: 260, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' },
+        );
+      });
+      control.addEventListener('blur', () => {
+        underline.animate(
+          [{ transform: 'scaleX(1)' }, { transform: 'scaleX(0)' }],
+          { duration: 200, easing: 'ease-in', fill: 'forwards' },
+        );
+      });
+      control.addEventListener('input', () => field.classList.remove('is-invalid'));
+    });
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (!submitBtn || !fieldsWrap || !successPanel) return;
+      if (submitBtn.disabled) return;
+
+      if (!form.checkValidity()) {
+        fields.forEach((field) => {
+          const control = field.querySelector<HTMLInputElement | HTMLTextAreaElement>('input, textarea');
+          if (control && !control.checkValidity()) {
+            field.classList.add('is-invalid');
+            field.animate(
+              [
+                { transform: 'translateX(0)' },
+                { transform: 'translateX(-6px)' },
+                { transform: 'translateX(6px)' },
+                { transform: 'translateX(0)' },
+              ],
+              { duration: 300, easing: 'ease-in-out' },
+            );
+          }
+        });
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.classList.add('is-sending');
+
+      setTimeout(() => {
+        submitBtn.classList.remove('is-sending');
+        submitBtn.classList.add('is-success');
+
+        const check = submitBtn.querySelector<SVGPathElement & SVGGeometryElement>('.contact__submit-check polyline');
+        if (check) {
+          const length = check.getTotalLength();
+          check.style.strokeDasharray = `${length}`;
+          check.animate(
+            [{ strokeDashoffset: length }, { strokeDashoffset: 0 }],
+            { duration: 400, easing: 'ease-out', fill: 'forwards' },
+          );
+        }
+
+        setTimeout(() => {
+          fieldsWrap
+            .animate(
+              [
+                { opacity: 1, transform: 'translateY(0)' },
+                { opacity: 0, transform: 'translateY(-8px)' },
+              ],
+              { duration: 220, easing: 'ease-in', fill: 'forwards' },
+            )
+            .addEventListener('finish', () => {
+              fieldsWrap.style.display = 'none';
+              successPanel.classList.add('is-visible');
+              successPanel.animate(
+                [
+                  { opacity: 0, transform: 'translateY(8px)' },
+                  { opacity: 1, transform: 'translateY(0)' },
+                ],
+                { duration: 320, easing: 'ease-out', fill: 'forwards' },
+              );
+            });
+        }, 650);
+      }, 900);
+    });
+  }
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!reduceMotion) {
+    const floats = Array.from(document.querySelectorAll<HTMLElement>('.contact-float'));
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        floats.forEach((el, i) => {
+          const speed = 0.06 + i * 0.03;
+          el.style.transform = `translateY(${y * speed * -1}px)`;
+        });
+        ticking = false;
+      });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+</script>
+
+<style>
+  .contact-band {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact {
+    position: relative;
+    padding: var(--space-4) var(--space-3) var(--space-5);
+  }
+
+  .contact-float {
+    position: absolute;
+    color: rgba(var(--color-navy-rgb), 0.1);
+    pointer-events: none;
+    will-change: transform;
+  }
+
+  .contact-float svg {
+    width: 100%;
+    height: 100%;
+    animation: contact-float-bob 5s ease-in-out infinite;
+  }
+
+  .contact-float--1 {
+    top: 8%;
+    left: 6%;
+    width: 64px;
+    height: 64px;
+  }
+
+  .contact-float--2 {
+    top: 55%;
+    right: 8%;
+    width: 48px;
+    height: 48px;
+  }
+
+  .contact-float--2 svg {
+    animation-duration: 6.5s;
+    animation-delay: 0.6s;
+  }
+
+  .contact-float--3 {
+    bottom: 6%;
+    left: 12%;
+    width: 40px;
+    height: 40px;
+  }
+
+  .contact-float--3 svg {
+    animation-duration: 7.5s;
+    animation-delay: 1.2s;
+  }
+
+  @keyframes contact-float-bob {
+    0%, 100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-14px) rotate(4deg);
+    }
+  }
+
+  @media (max-width: 860px) {
+    .contact-float {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .contact-float svg {
+      animation: none;
+    }
+  }
+
+  .contact__intro {
+    text-align: center;
+    max-width: 520px;
+    margin: 0 auto var(--space-4);
+  }
+
+  .contact__intro h2 {
+    font-family: 'EB Garamond', var(--font-serif);
+    font-size: clamp(30px, 4vw, 40px);
+    color: #000000;
+    margin-bottom: var(--space-2);
+  }
+
+  .contact__intro p {
+    font-family: var(--font-sans);
+    color: var(--color-muted);
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .contact__form {
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  .contact__success {
+    padding: var(--space-4) 0;
+  }
+
+  .contact__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 var(--space-3);
+  }
+
+  .field {
+    position: relative;
+    margin-bottom: var(--space-3);
+  }
+
+  .field input,
+  .field textarea {
+    width: 100%;
+    display: block;
+    border: none;
+    border-bottom: 1px solid var(--color-border);
+    background: transparent;
+    padding: 10px 2px 10px 30px;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    color: var(--color-ink);
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+
+  .field input:focus,
+  .field textarea:focus {
+    border-color: rgba(var(--color-navy-rgb), 0.4);
+  }
+
+  .field textarea {
+    resize: vertical;
+    min-height: 110px;
+  }
+
+  .field label {
+    position: absolute;
+    left: 30px;
+    top: 10px;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    color: var(--color-muted);
+    pointer-events: none;
+    transform-origin: left top;
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+
+  .field input:focus + label,
+  .field input:not(:placeholder-shown) + label,
+  .field textarea:focus + label,
+  .field textarea:not(:placeholder-shown) + label {
+    transform: translateY(-20px) scale(0.78);
+    color: var(--color-navy);
+  }
+
+  .field__icon {
+    position: absolute;
+    left: 0;
+    top: 12px;
+    width: 16px;
+    height: 16px;
+    color: rgba(var(--color-navy-rgb), 0.4);
+    pointer-events: none;
+    transition: color 0.2s ease;
+  }
+
+  .field__icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .field--message .field__icon {
+    top: 12px;
+  }
+
+  .field input:focus ~ .field__icon,
+  .field textarea:focus ~ .field__icon {
+    color: var(--color-navy);
+  }
+
+  .field__underline {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 2px;
+    background: var(--color-navy);
+    transform: scaleX(0);
+    transform-origin: center;
+  }
+
+  .field.is-invalid input,
+  .field.is-invalid textarea {
+    border-bottom-color: #b3413c;
+  }
+
+  .field.is-invalid .field__underline {
+    background: #b3413c;
+  }
+
+  .contact__submit {
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-width: 190px;
+    border: 1px solid var(--color-navy);
+    background: var(--color-navy);
+    color: var(--color-white);
+    padding: 14px 28px;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+  }
+
+  .contact__submit:hover:not(:disabled) {
+    background: var(--color-white);
+    color: var(--color-navy);
+  }
+
+  .contact__submit:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+
+  .contact__submit:disabled {
+    cursor: default;
+  }
+
+  .contact__submit-spinner,
+  .contact__submit-check {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    opacity: 0;
+  }
+
+  .contact__submit-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
+    border-radius: 50%;
+  }
+
+  .contact__submit-check {
+    width: 18px;
+    height: 18px;
+  }
+
+  .contact__submit.is-sending .contact__submit-label {
+    opacity: 0;
+  }
+
+  .contact__submit.is-sending .contact__submit-spinner {
+    opacity: 1;
+    animation: contact-spin 0.7s linear infinite;
+  }
+
+  .contact__submit.is-success {
+    background: var(--color-navy);
+    color: var(--color-white);
+    border-color: var(--color-navy);
+  }
+
+  .contact__submit.is-success .contact__submit-label {
+    opacity: 0;
+  }
+
+  .contact__submit.is-success .contact__submit-check {
+    opacity: 1;
+  }
+
+  @keyframes contact-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .contact__success {
+    display: none;
+    text-align: center;
+  }
+
+  .contact__success.is-visible {
+    display: block;
+  }
+
+  .contact__success svg {
+    width: 48px;
+    height: 48px;
+    color: var(--color-navy);
+    margin: 0 auto var(--space-2);
+  }
+
+  .contact__success h3 {
+    font-family: 'EB Garamond', var(--font-serif);
+    font-size: 26px;
+    color: #000000;
+    margin-bottom: var(--space-1);
+  }
+
+  .contact__success p {
+    font-family: var(--font-sans);
+    color: var(--color-muted);
+    font-size: 15px;
+    margin: 0;
+  }
+
+  @media (max-width: 640px) {
+    .contact__row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
